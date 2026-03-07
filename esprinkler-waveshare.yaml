@@ -1,0 +1,641 @@
+esphome:
+  name: sprinkler-test
+  friendly_name: sprinkler_test
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "+nBiBzgMX06SPA+EXhAPGk8D1yxVEtdfpJHdtqiEwEs="
+
+ota:
+  - platform: esphome
+    password: "0328b730de977e1aef3aa72c87d1b7d8"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Sprinkler-Test Fallback Hotspot"
+    password: "GvUgqwouIorW"
+
+web_server:
+  version: 3
+
+substitutions:
+  run_duration_uom: s
+  run_duration_initial_value: '5'
+  rain_sensor_id: rain_sensor
+  rain_sensor_inverted: 'true'
+  peripherals_power_off_relay_id: relay_7
+  valve_overlap: 1s
+  pump_start_pump_delay: 1s
+  pump_stop_valve_delay: 1s
+  rtc_id: rtc_time
+  timezone: CST
+  temperature_sensor_id: temperature
+  test_var: 3
+  running_day: false
+  day_update_interval: 3min
+  hourly_update_interval: 60min
+  default_update_interval: 30s
+
+globals:
+  # - id: time_update_interval
+  #   type: int
+  #   restore_value: yes
+  #   initial_value: '${default_update_interval}'
+
+  # Schedule A
+  - id: glob_sched_a
+    type: bool[7]
+    initial_value: '{false,false,false,false,false,false,false}'
+    restore_value: true
+
+  # Schedule B
+  #   - TODO
+
+  # Schedule C
+  #   - TODO
+
+
+# Get time from HA
+time:
+  - platform: homeassistant
+    id: ha_time
+    timezone: CST
+    on_time_sync:
+      - lambda: |-
+          #ifdef HAS_RTC
+          ${rtc_id}->write_time();
+          #endif
+    # on_time:
+    #   # Every 5 minutes
+    #   - seconds: 0
+    #     minutes: /${global_test}
+    #     then:
+    #       - sprinkler.start_full_cycle: lawn_sprinkler_ctrlr
+
+datetime:
+  # Example Time
+  - platform: template
+    id: start_time
+    type: time
+    name: Start Time
+    optimistic: yes
+    initial_value: "02:00"
+    restore_value: true
+
+
+# number:
+#   ##### REMOVE #####
+#   - platform: template
+#     name: "Automation Start Hour"
+#     id: start_hour
+#     min_value: 0
+#     max_value: 23
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true 
+
+#   ##### REMOVE #####
+#   - platform: template
+#     name: "Automation Start minute"
+#     id: start_minute
+#     min_value: 0
+#     max_value: 60
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true 
+
+# Check for correct day/time
+# TODO
+#   - Update to cleaner logic
+#   - Update for multiple schedules
+interval:
+  - interval: 30s
+    then:
+      - lambda: |-
+          if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
+            ESP_LOGD("main", "CORRECT DAY!!!!!!!!!!!!!!!!!!");
+            int current_hour = id(ha_time).now().hour;
+            int current_minute = id(ha_time).now().minute;
+            int desired_hour = id(start_time).hour;
+            int desired_minute = id(start_time).minute;
+            // Check if it is the desired hour and the automation should run
+            if (current_hour == desired_hour && current_minute == desired_minute) {
+              id(lawn_sprinkler_ctrlr).start_full_cycle();
+              ESP_LOGD("main", "It's the desired hour, running action!");
+            }
+          }
+
+
+sprinkler:
+  - id: lawn_sprinkler_ctrlr
+    main_switch: "Lawn Sprinklers"
+    auto_advance_switch: "Lawn Sprinklers Auto Advance"
+    # reverse_switch: "Lawn Sprinklers Reverse"
+    multiplier_number: "Lawn Sprinkler Multiplier"
+    repeat_number: "Lawn Sprinkler Repeat"
+    # VERIFY THIS IS SUFFICENT
+    valve_open_delay: 5s
+    # standby_switch: 
+    valves:
+      # Add zones
+      # TODO
+      #   - Add remaining zones
+      - valve_switch: "Zone 1"
+        enable_switch: "Enable Zone 1"
+        run_duration_number: 
+          id: z1_run_duration_number
+          name: "Zone 1 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw0
+
+      - valve_switch: "Zone 2"
+        enable_switch: "Enable Zone 2"
+        run_duration_number: 
+          id: z2_run_duration_number
+          name: "Zone 2 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw1
+
+      - valve_switch: "Zone 3"
+        enable_switch: "Enable Zone 3"
+        run_duration_number: 
+          id: z3_run_duration_number
+          name: "Zone 3 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw2
+
+      - valve_switch: "Zone 4"
+        enable_switch: "Enable Zone 4"
+        run_duration_number: 
+          id: z4_run_duration_number
+          name: "Zone 4 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw3
+      
+      - valve_switch: "Zone 5"
+        enable_switch: "Enable Zone 5"
+        run_duration_number: 
+          id: z5_run_duration_number
+          name: "Zone 5 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw4
+
+      - valve_switch: "Zone 6"
+        enable_switch: "Enable Zone 6"
+        run_duration_number: 
+          id: z6_run_duration_number
+          name: "Zone 6 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw5
+
+      - valve_switch: "Zone 7"
+        enable_switch: "Enable Zone 7"
+        run_duration_number: 
+          id: z7_run_duration_number
+          name: "Zone 7 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw6
+
+      - valve_switch: "Zone 8"
+        enable_switch: "Enable Zone 8"
+        run_duration_number: 
+          id: z8_run_duration_number
+          name: "Zone 8 Run Duration"
+          initial_value: 30
+        valve_switch_id: lawn_valve_sw7
+
+switch:
+  - platform: gpio
+    id: lawn_valve_sw0
+    pin: GPIO17
+  - platform: gpio
+    id: lawn_valve_sw1
+    pin: GPIO18
+  - platform: gpio
+    id: lawn_valve_sw2
+    pin: GPIO19
+  - platform: gpio
+    id: lawn_valve_sw3
+    pin: GPIO20
+  - platform: gpio
+    id: lawn_valve_sw4
+    pin: GPIO21
+  - platform: gpio
+    id: lawn_valve_sw5
+    pin: GPIO22
+  - platform: gpio
+    id: lawn_valve_sw6
+    pin: GPIO23
+  - platform: gpio
+    id: lawn_valve_sw7
+    pin: GPIO25
+
+  # Switch templates for days to water
+  # TODO
+  #   - Add schedule B&C
+  - platform: template
+    id: lawn_sunday_a_sw
+    name: "Sunday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    lambda: |-
+      if (id(glob_sched_a)[0]) {
+        id(lawn_sunday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_sunday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[0] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[0] = false;'
+        
+  - platform: template
+    id: lawn_monday_a_sw
+    name: "Monday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[1]) {
+        id(lawn_monday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_monday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[1] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[1] = false;'
+
+  - platform: template
+    id: lawn_tuesday_a_sw
+    name: "Tuesday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[2]) {
+        id(lawn_tuesday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_tuesday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[2] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[2] = false;'
+  
+  - platform: template
+    id: lawn_wednesday_a_sw
+    name: "Wednesday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[3]) {
+        id(lawn_wednesday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_wednesday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[3] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[3] = false;'
+  
+  - platform: template
+    id: lawn_thursday_a_sw
+    name: "Thursday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[4]) {
+        id(lawn_thursday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_thursday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[4] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[4] = false;'
+
+  - platform: template
+    id: lawn_friday_a_sw
+    name: "Friday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[5]) {
+        id(lawn_friday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_friday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[5] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[5] = false;'
+
+  - platform: template
+    id: lawn_saturday_a_sw
+    name: "Saturday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[6]) {
+        id(lawn_saturday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_saturday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[6] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[6] = false;'
+
+binary_sensor:
+  # These are just for testing, disable later
+  - platform: template
+    id: sunday_sensor
+    name: "Sunday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[0]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: monday_sensor
+    name: "Monday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[1]) {
+        return true;
+      } else {
+        return false;
+      }
+      
+  - platform: template
+    id: tuesday_sensor
+    name: "Tuesday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[2]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: wednesday_sensor
+    name: "Wednesday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[3]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: thursday_sensor
+    name: "Thursday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[4]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: friday_sensor
+    name: "Friday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[5]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: saturday_sensor
+    name: "Saturday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[6]) {
+        return true;
+      } else {
+        return false;
+      }
+
+button:
+  - platform: template
+    name: Pause
+    id: sprinkler_pause_button
+    #icon: "mdi:emoticon-outline"
+    on_press:
+      - sprinkler.pause: lawn_sprinkler_ctrlr
+  
+  - platform: template
+    name: Resume
+    id: sprinkler_resume_button
+    #icon: "mdi:emoticon-outline"
+    on_press:
+      - sprinkler.resume: lawn_sprinkler_ctrlr
+
+text_sensor:
+  - platform: template
+    id: sprinkler_controller_state
+    name: "Controller Status"
+    icon: "mdi:state-machine"
+    #entity_category: diagnostic
+    update_interval: 5s
+    lambda: |-
+      #include <esphome/components/sprinkler/sprinkler.h>
+      #define PAUSED_STR "Paused: "
+      #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
+      auto paused_valve = id(lawn_sprinkler_ctrlr).paused_valve();
+      if (paused_valve.has_value()) {
+        auto paused_valve_name = id(lawn_sprinkler_ctrlr).valve_name(paused_valve.value());
+        auto st = str_snprintf(
+          PAUSED_STR "%s", PAUSED_STR_LEN + strlen(paused_valve_name),
+          paused_valve_name);
+        return {st.c_str()};
+      }
+
+      if (id(lawn_sprinkler_ctrlr).standby())
+        return {"Standby"};
+
+      switch(id(lawn_sprinkler_ctrlr).controller_state()) {
+        case esphome::sprinkler::SprinklerState::IDLE: return {"Idle"};
+        case esphome::sprinkler::SprinklerState::STARTING: return {"Starting"};
+        case esphome::sprinkler::SprinklerState::ACTIVE: return {"Active"};
+        case esphome::sprinkler::SprinklerState::STOPPING: return {"Stopping"};
+        case esphome::sprinkler::SprinklerState::BYPASS: return {"Bypass"};
+      };
+
+      return {"N/A"};
+    
+  - platform: template
+    id: sprinklers_run_time_remaining
+    name: "Run time remaining"
+    icon: "mdi:timer-sand"
+    update_interval: 1s
+    lambda: |-
+      auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_current_operation().value_or(0);
+        // id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value_or(0);
+
+      if (time_remaining > 0) {
+        auto remaining_hours = time_remaining / 3600;
+        auto remaining_minutes = time_remaining / 60;
+        auto remaining_seconds = time_remaining % 60;
+
+        return
+          to_string(remaining_hours) + "h "
+          + to_string(remaining_minutes) + "m "
+          + to_string(remaining_seconds) + "s";
+      }
+
+      return { "N/A" };
+
+  - platform: template
+    name: "Zone 1 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 0) {
+        auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+        if (time_remaining > 0) {
+          auto remaining_minutes = time_remaining / 60;
+          auto remaining_seconds = time_remaining % 60;
+
+          return
+            // to_string(remaining_hours) + "h "
+            to_string(remaining_minutes) + "m "
+            + to_string(remaining_seconds) + "s";
+        }
+        return { "N/A" };
+      } else {
+        return { "N/A" };
+      }
+    update_interval: 1s
+
+  - platform: template
+    name: "Zone 2 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 1) {
+        auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+        if (time_remaining > 0) {
+          auto remaining_minutes = time_remaining / 60;
+          auto remaining_seconds = time_remaining % 60;
+
+          return
+            // to_string(remaining_hours) + "h "
+            to_string(remaining_minutes) + "m "
+            + to_string(remaining_seconds) + "s";
+        }
+        return { "N/A" };
+      } else {
+        return { "N/A" };
+      }
+    update_interval: 1s
+
+  - platform: template
+    name: "Zone 3 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 2) {
+        auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+        if (time_remaining > 0) {
+          auto remaining_minutes = time_remaining / 60;
+          auto remaining_seconds = time_remaining % 60;
+
+          return
+            // to_string(remaining_hours) + "h "
+            to_string(remaining_minutes) + "m "
+            + to_string(remaining_seconds) + "s";
+        }
+        return { "N/A" };
+      } else {
+        return { "N/A" };
+      }
+    update_interval: 1s
+
+sensor:
+
+  - platform: template
+    name: "Zone 4 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 3) {
+        return id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+      } else {
+        return 0;
+      }
+    update_interval: 1s
+    accuracy_decimals: 0
+
+  - platform: template
+    name: "Zone 5 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 4) {
+        return id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+      } else {
+        return 0;
+      }
+    update_interval: 1s
+    accuracy_decimals: 0
+
+  - platform: template
+    name: "Zone 6 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 5) {
+        return id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+      } else {
+        return 0;
+      }
+    update_interval: 1s
+    accuracy_decimals: 0
+
+  - platform: template
+    name: "Zone 7 Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 6) {
+        return id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+      } else {
+        return 0;
+      }
+    update_interval: 1s
+    accuracy_decimals: 0
+
+# sensor:
+#   - platform: template
+#     id: sprinkler_valve_paused
+#     name: "Paused Zone"
+      # if (id(lawn_sprinkler_ctrlr).paused_valve().has_value()) {
+      #   // the controller is paused, get the return true valve into running_valve and print it
+      #   auto paused_valve = id(lawn_sprinkler_ctrlr).paused_valve().value();
+      #   //sprinkler_valve_paused->publish_state(paused_valve);
+      #   ESP_LOGD("Labmda", "===============>> %u",paused_valve);
+      #   return true;
+      # } else {
+      #   // the controller is NOT running
+      #   //it.print(0, 0, "Idle");
+      #   //sprinkler_valve_paused->publish_state(-1);
+      #   return false;
+      # }
