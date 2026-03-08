@@ -1,0 +1,25 @@
+switch:
+  - platform: gpio
+    id: lawn_valve_sw0
+    pin: GPIO17
+  - platform: gpio
+    id: lawn_valve_sw1
+    pin: GPIO18
+  - platform: gpio
+    id: lawn_valve_sw2
+    pin: GPIO19
+  - platform: gpio
+    id: lawn_valve_sw3
+    pin: GPIO20
+  - platform: gpio
+    id: lawn_valve_sw4
+    pin: GPIO21
+  - platform: gpio
+    id: lawn_valve_sw5
+    pin: GPIO22
+  - platform: gpio
+    id: lawn_valve_sw6
+    pin: GPIO23
+  - platform: gpio
+    id: lawn_valve_sw7
+    pin: GPIO25

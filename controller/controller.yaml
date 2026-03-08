@@ -3,7 +3,7 @@ sprinkler:
     main_switch: "Lawn Sprinklers"
     auto_advance_switch: "Lawn Sprinklers Auto Advance"
     multiplier_number: "Lawn Sprinkler Multiplier"
-    # repeat_number: "Lawn Sprinkler Repeat"
+    repeat_number: "Repeat Schedule"
     # VERIFY THIS IS SUFFICENT
     valve_open_delay: 5s
     # standby_switch: 

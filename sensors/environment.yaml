@@ -1,0 +1,5 @@
+##### Rain, moister, etc #####
+
+# sensor:
+#   - rain_sensor
+#   - moister_sensor

@@ -28,6 +28,10 @@ interval:
       - lambda: |-
           if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
             ESP_LOGD("main", "CORRECT DAY!!!!!!!!!!!!!!!!!!");
+            if (id(lawn_sprinkler_ctrlr).paused_valve().has_value()){
+              ESP_LOGD("main", "=============>>>>>>>>>Not running due to paused state!!!");
+              return;
+            }
             int current_hour = id(ha_time).now().hour;
             int current_minute = id(ha_time).now().minute;
             int desired_hour = id(start_time).hour;
