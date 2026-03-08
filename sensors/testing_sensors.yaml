@@ -1,0 +1,71 @@
+binary_sensor:
+  # These are just for testing, disable later
+  - platform: template
+    id: sunday_sensor
+    name: "Sunday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[0]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: monday_sensor
+    name: "Monday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[1]) {
+        return true;
+      } else {
+        return false;
+      }
+      
+  - platform: template
+    id: tuesday_sensor
+    name: "Tuesday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[2]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: wednesday_sensor
+    name: "Wednesday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[3]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: thursday_sensor
+    name: "Thursday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[4]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: friday_sensor
+    name: "Friday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[5]) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    id: saturday_sensor
+    name: "Saturday Sensor"
+    lambda: |-
+      if (id(glob_sched_a)[6]) {
+        return true;
+      } else {
+        return false;
+      }

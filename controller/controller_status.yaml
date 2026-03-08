@@ -1,0 +1,223 @@
+text_sensor:
+  - platform: template
+    id: sprinkler_controller_state
+    name: "Controller Status"
+    icon: "mdi:state-machine"
+    #entity_category: diagnostic
+    update_interval: 5s
+    lambda: |-
+      #include <esphome/components/sprinkler/sprinkler.h>
+      #define PAUSED_STR "Paused: "
+      #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
+      auto paused_valve = id(lawn_sprinkler_ctrlr).paused_valve();
+      if (paused_valve.has_value()) {
+        auto paused_valve_name = id(lawn_sprinkler_ctrlr).valve_name(paused_valve.value());
+        auto st = str_snprintf(
+          PAUSED_STR "%s", PAUSED_STR_LEN + strlen(paused_valve_name),
+          paused_valve_name);
+        return {st.c_str()};
+      }
+
+      if (id(lawn_sprinkler_ctrlr).standby())
+        return {"Standby"};
+
+      switch(id(lawn_sprinkler_ctrlr).controller_state()) {
+        case esphome::sprinkler::SprinklerState::IDLE: return {"Idle"};
+        case esphome::sprinkler::SprinklerState::STARTING: return {"Starting"};
+        case esphome::sprinkler::SprinklerState::ACTIVE: return {"Active"};
+        case esphome::sprinkler::SprinklerState::STOPPING: return {"Stopping"};
+        case esphome::sprinkler::SprinklerState::BYPASS: return {"Bypass"};
+      };
+
+      return {"N/A"};
+    
+  - platform: template
+    id: sprinklers_run_time_remaining
+    name: "Run time remaining"
+    icon: "mdi:timer-sand"
+    update_interval: 1s
+    lambda: |-
+      auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_current_operation().value_or(0);
+        // id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value_or(0);
+
+      if (time_remaining > 0) {
+        auto remaining_hours = time_remaining / 3600;
+        auto remaining_minutes = time_remaining / 60;
+        auto remaining_seconds = time_remaining % 60;
+
+        return
+          to_string(remaining_hours) + "h "
+          + to_string(remaining_minutes) + "m "
+          + to_string(remaining_seconds) + "s";
+      }
+
+      return { "N/A" };
+
+  - platform: template
+    name: "Active Zone"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value()){
+        return "Zone " + to_string(id(lawn_sprinkler_ctrlr).active_valve().value()+1);
+      }
+
+      return { "N/A" };
+    update_interval: 1s
+
+  - platform: template
+    name: "Zone Time Remaining"
+    lambda: |-
+      if (id(lawn_sprinkler_ctrlr).active_valve().has_value()){
+        auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+        if (time_remaining > 0) {
+          auto remaining_minutes = time_remaining / 60;
+          auto remaining_seconds = time_remaining % 60;
+
+          return
+            // to_string(remaining_hours) + "h "
+            to_string(remaining_minutes) + "m "
+            + to_string(remaining_seconds) + "s";
+        }
+      }
+
+      return { "N/A" };
+    update_interval: 1s
+
+##### Uncomment for a time remaining sensor for each zone #####
+  # - platform: template
+  #   name: "Zone 1 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 0) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Zone 2 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 1) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Zone 3 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 2) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Zone 4 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 3) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Zone 5 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 4) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+  # - platform: template
+  #   name: "Zone 6 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 5) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Zone 7 Time Remaining"
+  #   lambda: |-
+  #     if (id(lawn_sprinkler_ctrlr).active_valve().has_value() && id(lawn_sprinkler_ctrlr).active_valve().value() == 6) {
+  #       auto time_remaining = id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value();
+  #       if (time_remaining > 0) {
+  #         auto remaining_minutes = time_remaining / 60;
+  #         auto remaining_seconds = time_remaining % 60;
+
+  #         return
+  #           // to_string(remaining_hours) + "h "
+  #           to_string(remaining_minutes) + "m "
+  #           + to_string(remaining_seconds) + "s";
+  #       }
+  #       return { "N/A" };
+  #     } else {
+  #       return { "N/A" };
+  #     }
+  #   update_interval: 1s

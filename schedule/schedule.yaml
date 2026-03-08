@@ -1,0 +1,171 @@
+globals:
+  # Schedule A
+  - id: glob_sched_a
+    type: bool[7]
+    initial_value: '{false,false,false,false,false,false,false}'
+    restore_value: true
+
+  # Schedule B
+  #   - TODO
+
+  # Schedule C
+  #   - TODO
+
+datetime:
+  # Schedule A Time
+  - platform: template
+    id: start_time
+    type: time
+    name: Start Time
+    optimistic: yes
+    initial_value: "02:00"
+    restore_value: true
+
+
+interval:
+  - interval: 30s
+    then:
+      - lambda: |-
+          if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
+            ESP_LOGD("main", "CORRECT DAY!!!!!!!!!!!!!!!!!!");
+            int current_hour = id(ha_time).now().hour;
+            int current_minute = id(ha_time).now().minute;
+            int desired_hour = id(start_time).hour;
+            int desired_minute = id(start_time).minute;
+            // Check if it is the desired hour and the automation should run
+            if (current_hour == desired_hour && current_minute == desired_minute) {
+              id(lawn_sprinkler_ctrlr).start_full_cycle();
+              ESP_LOGD("main", "It's the desired hour, running action!");
+            }
+          }
+
+switch:
+  # Switch templates for days to water
+  # TODO
+  #   - Add schedule B&C
+  - platform: template
+    id: lawn_sunday_a_sw
+    name: "Sunday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    lambda: |-
+      if (id(glob_sched_a)[0]) {
+        id(lawn_sunday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_sunday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[0] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[0] = false;'
+        
+  - platform: template
+    id: lawn_monday_a_sw
+    name: "Monday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[1]) {
+        id(lawn_monday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_monday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[1] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[1] = false;'
+
+  - platform: template
+    id: lawn_tuesday_a_sw
+    name: "Tuesday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[2]) {
+        id(lawn_tuesday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_tuesday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[2] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[2] = false;'
+  
+  - platform: template
+    id: lawn_wednesday_a_sw
+    name: "Wednesday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[3]) {
+        id(lawn_wednesday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_wednesday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[3] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[3] = false;'
+  
+  - platform: template
+    id: lawn_thursday_a_sw
+    name: "Thursday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[4]) {
+        id(lawn_thursday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_thursday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[4] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[4] = false;'
+
+  - platform: template
+    id: lawn_friday_a_sw
+    name: "Friday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[5]) {
+        id(lawn_friday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_friday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[5] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[5] = false;'
+
+  - platform: template
+    id: lawn_saturday_a_sw
+    name: "Saturday"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if (id(glob_sched_a)[6]) {
+        id(lawn_saturday_a_sw).publish_state(true);
+        return true;
+      } else {
+        id(lawn_saturday_a_sw).publish_state(false);
+        return false;
+      }
+    turn_on_action: 
+      - lambda: 'id(glob_sched_a)[6] = true;'
+
+    turn_off_action: 
+      - lambda: 'id(glob_sched_a)[6] = false;'

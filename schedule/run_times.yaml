@@ -1,0 +1,14 @@
+#####  WIP #####
+# Not implemented yet #
+
+number:
+  - platform: template
+    name: "Sched A - Z1 Run Time"
+    id: sched_a_z1_run_time
+    min_value: 1
+    max_value: 300
+    initial_value: 10
+    step: 1
+    optimistic: True
+    mode: box
+    restore_value: true 
