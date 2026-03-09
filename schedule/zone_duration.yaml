@@ -78,3 +78,14 @@ number:
     optimistic: True
     mode: box
     restore_value: true
+
+  - platform: template
+    name: "Sched A - Z8 Run Time"
+    id: sched_a_z1_run_time
+    min_value: 1
+    max_value: 300
+    initial_value: 5
+    step: 1
+    optimistic: True
+    mode: box
+    restore_value: true
