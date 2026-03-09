@@ -1,5 +1,5 @@
 # esprinkler Irrigation Controller
-Based on esphome sprinkler component
+Based on esphome sprinkler component - https://esphome.io/components/sprinkler/
 ## Hardware
 - Waveshare esp32-s3 8 Channel WiFi Relay Module - https://www.waveshare.com/esp32-s3-eth-8di-8ro-c.htm
 - Existing 24VAC valves
@@ -20,7 +20,7 @@ switch:
 ```
 
 ### `controller/controller.yaml`
-More controller options available here: https://esphome.io/components/sprinkler/
+More controller options available here: https://esphome.io/components/sprinkler/#configuration-variables
 ```Yaml
 sprinkler:
   - id: lawn_sprinkler_ctrlr
