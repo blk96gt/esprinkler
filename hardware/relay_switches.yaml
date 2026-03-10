@@ -1,25 +1,212 @@
+# switch:
+#   - platform: gpio
+#     id: lawn_valve_sw0
+#     pin: GPIO17
+#   - platform: gpio
+#     id: lawn_valve_sw1
+#     pin: GPIO18
+#   - platform: gpio
+#     id: lawn_valve_sw2
+#     pin: GPIO19
+#   - platform: gpio
+#     id: lawn_valve_sw3
+#     pin: GPIO20
+#   - platform: gpio
+#     id: lawn_valve_sw4
+#     pin: GPIO21
+#   - platform: gpio
+#     id: lawn_valve_sw5
+#     pin: GPIO22
+#   - platform: gpio
+#     id: lawn_valve_sw6
+#     pin: GPIO23
+#   - platform: gpio
+#     id: lawn_valve_sw7
+#     pin: GPIO25
+
+binary_sensor:
+# Digital Inputs
+  - platform: gpio
+    id: di1
+    name: "DI1"
+    pin:
+      number: GPIO4
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di2
+    name: "DI2"
+    pin:
+      number: GPIO5
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di3
+    name: "DI3"
+    pin:
+      number: GPIO6
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di4
+    name: "DI4"
+    pin:
+      number: GPIO7
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di5
+    name: "DI5"
+    pin:
+      number: GPIO8
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di6
+    name: "DI6"
+    pin:
+      number: GPIO9
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di7
+    name: "DI7"
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    id: di8
+    name: "DI8"
+    pin:
+      number: GPIO11
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on_off: 10ms
+
+# buzzer
+output:
+  - platform: ledc
+    pin:
+      number: GPIO46
+      ignore_strapping_warning: true
+    id: buzzer
+
+rtttl:
+  output: buzzer
+  id: rtttl_buzzer
+  gain: 30%
+
+# RGB LED
+light:
+  - platform: esp32_rmt_led_strip
+    rgb_order: RGB
+    chipset: WS2812
+    pin: GPIO38
+    num_leds: 1
+    name: "RGB LED"
+    id: rgb_led
+
+# Relays
 switch:
   - platform: gpio
-    id: lawn_valve_sw0
-    pin: GPIO17
+    name: "Relay 1"
+    id: relay1
+    pin:
+      pca9554: TCA9554_hub
+      number: 0
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw1
-    pin: GPIO18
+    name: "Relay 2"
+    id: relay2
+    pin:
+      pca9554: TCA9554_hub
+      number: 1
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw2
-    pin: GPIO19
+    name: "Relay 3"
+    id: relay3
+    pin:
+      pca9554: TCA9554_hub
+      number: 2
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw3
-    pin: GPIO20
+    name: "Relay 4"
+    id: relay4
+    pin:
+      pca9554: TCA9554_hub
+      number: 3
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw4
-    pin: GPIO21
+    name: "Relay 5"
+    id: relay5
+    pin:
+      pca9554: TCA9554_hub
+      number: 4
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw5
-    pin: GPIO22
+    name: "Relay 6"
+    id: relay6
+    pin:
+      pca9554: TCA9554_hub
+      number: 5
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw6
-    pin: GPIO23
+    name: "Relay 7"
+    id: relay7
+    pin:
+      pca9554: TCA9554_hub
+      number: 6
+      mode:
+        output: true
+      inverted: false
+
   - platform: gpio
-    id: lawn_valve_sw7
-    pin: GPIO25
+    name: "Relay 8"
+    id: relay8
+    pin:
+      pca9554: TCA9554_hub
+      number: 7
+      mode:
+        output: true
+      inverted: false

@@ -81,6 +81,20 @@ wifi:
 web_server:
   version: 3
 
+# I2C bus
+i2c:
+  sda: GPIO42
+  scl: GPIO41
+  scan: false
+  frequency: 100kHz
+  id: i2cbus
+
+pca9554:
+  - id: 'TCA9554_hub'
+    address: 0x20
+
+
+
 substitutions:
   run_duration_uom: s
   run_duration_initial_value: '5'
@@ -102,9 +116,9 @@ substitutions:
 packages:   # as a list
   # Time, IP, MAC addr, Wifi info, Temperature, etc
   - !include sensors/generic_sensors.yaml
-  - !include controller/controller.yaml
-  - !include controller/controller_status.yaml
-  - !include schedule/schedule.yaml
+  # - !include controller/controller.yaml
+  # - !include controller/controller_status.yaml
+  # - !include schedule/schedule.yaml
   - !include hardware/relay_switches.yaml
   ##### Uncomment below if compiling from esphome builder #####
   # - !include esprinkler/sensors/generic_sensors.yaml
@@ -139,19 +153,51 @@ packages:   # as a list
 #     pin: GPIO25
 
 button:
-  - platform: template
-    name: Pause
-    id: sprinkler_pause_button
-    #icon: "mdi:emoticon-outline"
-    on_press:
-      - sprinkler.pause: lawn_sprinkler_ctrlr
+  # - platform: template
+  #   name: Pause
+  #   id: sprinkler_pause_button
+  #   #icon: "mdi:emoticon-outline"
+  #   on_press:
+  #     - sprinkler.pause: lawn_sprinkler_ctrlr
   
-  - platform: template
-    name: Resume
-    id: sprinkler_resume_button
-    #icon: "mdi:emoticon-outline"
+  # - platform: template
+  #   name: Resume
+  #   id: sprinkler_resume_button
+  #   #icon: "mdi:emoticon-outline"
+  #   on_press:
+  #     - sprinkler.resume: lawn_sprinkler_ctrlr
+
+  - platform: restart
+    name: "Restart"
+    id: restart_button
+    entity_category: config
+
+  - platform: factory_reset
+    name: "Factory Reset"
+    id: reset
+    entity_category: config
+
+  - platform: safe_mode
+    name: "Safe Mode"
+    internal: false
+    entity_category: config
+
+binary_sensor:
+  - platform: status
+    name: "Status"
+
+  - platform: gpio
+    name: "Boot Button"
+    pin:
+      number: 0
+      ignore_strapping_warning: true
+      mode:
+        input: true
+      inverted: true
+    disabled_by_default: true
     on_press:
-      - sprinkler.resume: lawn_sprinkler_ctrlr
+      then:
+        - button.press: restart_button
 
 # sensor:
 #   - platform: template

@@ -1,12 +1,21 @@
+# time:
+#   - platform: homeassistant
+#     id: ha_time
+#     timezone: CST
+#     on_time_sync:
+#       - lambda: |-
+#           #ifdef HAS_RTC
+#           ${rtc_id}->write_time();
+#           #endif
 time:
   - platform: homeassistant
     id: ha_time
-    timezone: CST
     on_time_sync:
-      - lambda: |-
-          #ifdef HAS_RTC
-          ${rtc_id}->write_time();
-          #endif
+      then:
+        # Update the RTC when the synchronization was successful
+        pcf85063.write_time:
+  - platform: pcf85063
+    id: pcf85063_time
 
 sensor:
   - platform: wifi_signal
