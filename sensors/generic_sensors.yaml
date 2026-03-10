@@ -45,21 +45,21 @@ sensor:
     unit_of_measurement: "%"
     entity_category: diagnostic
 
-  - platform: debug
-    free:
-      name: "Heap Free"
-    block:
-      name: "Heap Max Block"
-    min_free:
-      name: "Heap Min Free"
-    fragmentation:
-      name: "Heap Fragmentation"
-    loop_time:
-      name: "Loop Time"
-    # psram:
-    #   name: "Free PSRAM"
-    cpu_frequency:
-      name: "CPU Frequency"
+  # - platform: debug
+  #   free:
+  #     name: "Heap Free"
+  #   block:
+  #     name: "Heap Max Block"
+  #   min_free:
+  #     name: "Heap Min Free"
+  #   fragmentation:
+  #     name: "Heap Fragmentation"
+  #   loop_time:
+  #     name: "Loop Time"
+  #   # psram:
+  #   #   name: "Free PSRAM"
+  #   cpu_frequency:
+  #     name: "CPU Frequency"
 
 text_sensor:
   - platform: template
