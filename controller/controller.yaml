@@ -1,73 +1,156 @@
 sprinkler:
-  - id: lawn_sprinkler_ctrlr
-    main_switch: "Lawn Sprinklers"
-    auto_advance_switch: "Lawn Sprinklers Auto Advance"
-    multiplier_number: "Lawn Sprinklers Multiplier"
-    repeat_number: "Repeat Schedule"
+  - id: ${cntrlr_id}
+    main_switch: "Start Sprinkler Cycle"
+    auto_advance_switch: "Auto Advance"
+    multiplier_number: "Run Duration Multiplier"
+    repeat_number: "Repeat Cycle"
     # VERIFY THIS IS SUFFICENT
     valve_open_delay: 5s
-    # standby_switch: 
+    standby_switch: "Disable All Zones"
     valves:
-      - valve_switch: "Zone 1"
-        enable_switch: "Enable Zone 1"
+      - valve_switch: ${z1_name}
+        enable_switch: "Enable ${z1_name}"
         run_duration_number: 
           id: z1_run_duration_number
-          name: "Zone 1 Run Duration"
+          name: "${z1_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw0
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay1
 
-      - valve_switch: "Zone 2"
-        enable_switch: "Enable Zone 2"
+      - valve_switch: ${z2_name}
+        enable_switch: "Enable ${z2_name}"
         run_duration_number: 
           id: z2_run_duration_number
-          name: "Zone 2 Run Duration"
+          name: "${z2_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw1
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay2
 
-      - valve_switch: "Zone 3"
-        enable_switch: "Enable Zone 3"
+      - valve_switch: ${z3_name}
+        enable_switch: "Enable ${z3_name}"
         run_duration_number: 
           id: z3_run_duration_number
-          name: "Zone 3 Run Duration"
+          name: "${z3_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw2
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay3
 
-      - valve_switch: "Zone 4"
-        enable_switch: "Enable Zone 4"
+      - valve_switch: ${z4_name}
+        enable_switch: "Enable ${z4_name}"
         run_duration_number: 
           id: z4_run_duration_number
-          name: "Zone 4 Run Duration"
+          name: "${z4_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw3
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay4
       
-      - valve_switch: "Zone 5"
-        enable_switch: "Enable Zone 5"
+      - valve_switch: ${z5_name}
+        enable_switch: "Enable ${z5_name}"
         run_duration_number: 
           id: z5_run_duration_number
-          name: "Zone 5 Run Duration"
+          name: "${z5_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw4
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay5
 
-      - valve_switch: "Zone 6"
-        enable_switch: "Enable Zone 6"
+      - valve_switch: ${z6_name}
+        enable_switch: "Enable ${z6_name}"
         run_duration_number: 
           id: z6_run_duration_number
-          name: "Zone 6 Run Duration"
+          name: "${z6_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw5
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay6
 
-      - valve_switch: "Zone 7"
-        enable_switch: "Enable Zone 7"
+      - valve_switch: ${z7_name}
+        enable_switch: "Enable ${z7_name}"
         run_duration_number: 
           id: z7_run_duration_number
-          name: "Zone 7 Run Duration"
+          name: "${z7_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw6
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay7
 
-      - valve_switch: "Zone 8"
-        enable_switch: "Enable Zone 8"
+      - valve_switch: ${z8_name}
+        enable_switch: "Enable ${z8_name}"
         run_duration_number: 
           id: z8_run_duration_number
-          name: "Zone 8 Run Duration"
+          name: "${z8_name} Run Duration"
           initial_value: 30
-        valve_switch_id: lawn_valve_sw7
+          unit_of_measurement: ${run_uom}
+        valve_switch_id: relay8
+
+
+# sprinkler:
+#   - id: lawn_sprinkler_ctrlr
+#     main_switch: "Lawn Sprinklers"
+#     auto_advance_switch: "Lawn Sprinklers Auto Advance"
+#     multiplier_number: "Lawn Sprinklers Multiplier"
+#     repeat_number: "Repeat Schedule"
+#     # VERIFY THIS IS SUFFICENT
+#     valve_open_delay: 5s
+#     # standby_switch: 
+#     valves:
+#       - valve_switch: "Zone 1"
+#         enable_switch: "Enable Zone 1"
+#         run_duration_number: 
+#           id: z1_run_duration_number
+#           name: "Zone 1 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw0
+
+#       - valve_switch: "Zone 2"
+#         enable_switch: "Enable Zone 2"
+#         run_duration_number: 
+#           id: z2_run_duration_number
+#           name: "Zone 2 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw1
+
+#       - valve_switch: "Zone 3"
+#         enable_switch: "Enable Zone 3"
+#         run_duration_number: 
+#           id: z3_run_duration_number
+#           name: "Zone 3 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw2
+
+#       - valve_switch: "Zone 4"
+#         enable_switch: "Enable Zone 4"
+#         run_duration_number: 
+#           id: z4_run_duration_number
+#           name: "Zone 4 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw3
+      
+#       - valve_switch: "Zone 5"
+#         enable_switch: "Enable Zone 5"
+#         run_duration_number: 
+#           id: z5_run_duration_number
+#           name: "Zone 5 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw4
+
+#       - valve_switch: "Zone 6"
+#         enable_switch: "Enable Zone 6"
+#         run_duration_number: 
+#           id: z6_run_duration_number
+#           name: "Zone 6 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw5
+
+#       - valve_switch: "Zone 7"
+#         enable_switch: "Enable Zone 7"
+#         run_duration_number: 
+#           id: z7_run_duration_number
+#           name: "Zone 7 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw6
+
+#       - valve_switch: "Zone 8"
+#         enable_switch: "Enable Zone 8"
+#         run_duration_number: 
+#           id: z8_run_duration_number
+#           name: "Zone 8 Run Duration"
+#           initial_value: 30
+#         valve_switch_id: lawn_valve_sw7

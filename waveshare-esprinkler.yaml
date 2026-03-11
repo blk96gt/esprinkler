@@ -7,6 +7,7 @@ substitutions:
   day_update_interval: 3min
   hourly_update_interval: 60min
   default_update_interval: 30s
+  test_zone: "Zone Test"
 
 esphome:
   name: waveshare-esprinkler
@@ -93,8 +94,8 @@ sprinkler:
     valve_open_delay: 5s
     standby_switch: "Disable All Zones"
     valves:
-      - valve_switch: "Zone 1"
-        enable_switch: "Enable Zone 1"
+      - valve_switch: ${test_zone}
+        enable_switch: "Enable ${test_zone}"
         run_duration_number: 
           id: z1_run_duration_number
           name: "Zone 1 Run Duration"
