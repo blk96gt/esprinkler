@@ -1,0 +1,210 @@
+substitutions:
+  run_uom: s
+  run_duration_initial_value: '5'
+  rain_sensor_id: rain_sensor
+  rtc_id: rtc_time
+  timezone: CST
+  day_update_interval: 3min
+  hourly_update_interval: 60min
+  default_update_interval: 30s
+  # Controller setup
+  cntrlr_id: sprinkler_cntrlr
+  cntrlr_name: "Sprinkler Controller"
+  z1_name: "Zone 1"
+  z2_name: "Zone 2"
+  z3_name: "Zone 3"
+  z4_name: "Zone 4"
+  z5_name: "Zone 5"
+  z6_name: "Zone 6"
+  z7_name: "Zone 7"
+  z8_name: "Zone 8"
+  led_ready:
+    id: rgb_led
+    brightness: 100%
+    # Green
+    red: 0%
+    green: 80%
+    blue: 0%
+
+  led_running:
+    id: rgb_led
+    brightness: 100%
+    # Purple 
+    red: 95%
+    green: 2%
+    blue: 100%
+
+  led_standby:
+    id: rgb_led
+    brightness: 100%
+    # Orange 
+    red: 97%
+    green: 46%
+    blue: 19%
+  
+  led_pause:
+    id: rgb_led
+    brightness: 100%
+    # Orange 
+    red: 97%
+    green: 46%
+    blue: 19%
+
+
+
+esphome:
+  name: waveshare-esprinkler
+  comment: "WaveShare ESP32-S3-POE-ETH-8DI-8RO device"
+  friendly_name: "Waveshare Esprinkler"
+  name_add_mac_suffix: false
+  on_boot:
+    then:
+      - pcf85063.read_time
+      - rtttl.play:
+          rtttl: scale_up:d=32,o=5,b=150:c,e,8g
+      - light.turn_on: ${led_ready}
+          # id: rgb_led
+          
+          # brightness: 100%
+          # red: 95%
+          # green: 2%
+          # blue: 100%
+
+esp32:
+  board: esp32s3box #esp32-s3-devkitc-1
+  flash_size: 16MB
+  framework:
+    type: arduino
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "thz0x33OT4pfVlgULREJgurUDENy41juibsZyTVdo+0="
+  actions:
+    # Ability to command the buzzer from Home Assistant
+    - action: rtttl_play
+      variables:
+        song_str: string
+      then:
+        - rtttl.play:
+            rtttl: !lambda 'return song_str;'
+
+ota:
+  - platform: esphome
+    password: "f063f4abfffbdd18a9dcf4d5e21d8610"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Waveshare-Esprinkler"
+    password: "h0JC2RoXPde1"
+
+web_server:
+  version: 3
+
+packages:
+  # Time, IP, MAC addr, Wifi info, Temperature, etc
+  - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
+  - !include esprinkler/sensors/generic_sensors.yaml
+  - !include esprinkler/controller/controller.yaml
+  - !include esprinkler/controller/controller_status.yaml
+  # - !include schedule/schedule.yaml
+  
+  ##### Uncomment below if compiling from esphome builder #####
+  # - !include esprinkler/sensors/generic_sensors.yaml
+  # - !include esprinkler/controller/controller.yaml
+  # - !include esprinkler/controller/controller_status.yaml
+  # - !include esprinkler/schedule/schedule.yaml
+
+# Enable logging
+logger:
+
+debug:
+  update_interval: 5s
+
+# sprinkler:
+#   - id: ${cntrlr_id}
+#     main_switch: "Start Sprinkler Cycle"
+#     auto_advance_switch: "Auto Advance"
+#     multiplier_number: "Run Duration Multiplier"
+#     repeat_number: "Repeat Cycle"
+#     # VERIFY THIS IS SUFFICENT
+#     valve_open_delay: 5s
+#     standby_switch: "Disable All Zones"
+#     valves:
+#       - valve_switch: ${z1_name}
+#         enable_switch: "Enable ${z1_name}"
+#         run_duration_number: 
+#           id: z1_run_duration_number
+#           name: "${z1_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay1
+
+#       - valve_switch: ${z2_name}
+#         enable_switch: "Enable ${z2_name}"
+#         run_duration_number: 
+#           id: z2_run_duration_number
+#           name: "${z2_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay2
+
+#       - valve_switch: ${z3_name}
+#         enable_switch: "Enable ${z3_name}"
+#         run_duration_number: 
+#           id: z3_run_duration_number
+#           name: "${z3_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay3
+
+#       - valve_switch: ${z4_name}
+#         enable_switch: "Enable ${z4_name}"
+#         run_duration_number: 
+#           id: z4_run_duration_number
+#           name: "${z4_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay4
+      
+#       - valve_switch: ${z5_name}
+#         enable_switch: "Enable ${z5_name}"
+#         run_duration_number: 
+#           id: z5_run_duration_number
+#           name: "${z5_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay5
+
+#       - valve_switch: ${z6_name}
+#         enable_switch: "Enable ${z6_name}"
+#         run_duration_number: 
+#           id: z6_run_duration_number
+#           name: "${z6_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay6
+
+#       - valve_switch: ${z7_name}
+#         enable_switch: "Enable ${z7_name}"
+#         run_duration_number: 
+#           id: z7_run_duration_number
+#           name: "${z7_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay7
+
+#       - valve_switch: ${z8_name}
+#         enable_switch: "Enable ${z8_name}"
+#         run_duration_number: 
+#           id: z8_run_duration_number
+#           name: "${z8_name} Run Duration"
+#           initial_value: 30
+#           unit_of_measurement: ${run_uom}
+#         valve_switch_id: relay8
