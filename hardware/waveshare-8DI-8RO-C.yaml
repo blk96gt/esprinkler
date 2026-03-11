@@ -135,7 +135,7 @@ output:
 rtttl:
   output: buzzer
   id: rtttl_buzzer
-  gain: 30%
+  gain: 2%
 
 # RGB LED
 light:
