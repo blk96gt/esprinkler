@@ -26,6 +26,22 @@ button:
     internal: false
     entity_category: config
 
+  - platform: template
+    name: Pause
+    id: sprinkler_pause_button
+    #icon: "mdi:emoticon-outline"
+    on_press:
+      - sprinkler.pause: sprinkler_cntrlr
+      - light.turn_on: ${led_pause}
+  
+  - platform: template
+    name: Resume
+    id: sprinkler_resume_button
+    #icon: "mdi:emoticon-outline"
+    on_press:
+      - sprinkler.resume: sprinkler_cntrlr
+      - light.turn_on: ${led_running}
+
 binary_sensor:
 # Digital Inputs
   - platform: gpio
@@ -146,6 +162,8 @@ light:
     num_leds: 1
     name: "RGB LED"
     id: rgb_led
+    effects:
+      - pulse:
 
 # Relays
 switch:

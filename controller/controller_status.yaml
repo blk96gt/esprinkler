@@ -15,6 +15,13 @@ text_sensor:
         auto st = str_snprintf(
           PAUSED_STR "%s", PAUSED_STR_LEN + strlen(paused_valve_name),
           paused_valve_name);
+        auto call = id(rgb_led).turn_on();
+        // set parameters (optional)
+        // call.set_brightness(1.0); // 1.0 is full brightness
+        // call.set_rgb(0.5, 0.25, 1.0); // color in RGB order, this example is purple
+        call.set_effect("Pulse");
+        // perform action:
+        call.perform();
         return {st.c_str()};
       }
 

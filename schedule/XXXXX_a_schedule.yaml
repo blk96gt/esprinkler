@@ -10,36 +10,11 @@ globals:
 
   # Schedule C
   #   - TODO
-script:
-  - id: run_schedule_a
-    # parameters:
-    #   delay_ms: int
-    then:
-      # Set zone run durations
-      - logger.log: "=========>>>>>> Started script"
-      - lambda: id(a_schedule_sw).publish_state(true);
-      - number.set:
-          id: z1_run_duration_number
-          value: !lambda |-
-            return id(sched_a_z1_run_time).state;
-      - number.set:
-          id: z2_run_duration_number
-          value: !lambda |-
-            return id(sched_a_z2_run_time).state;
-      - number.set:
-          id: z3_run_duration_number
-          value: !lambda |-
-            return id(sched_a_z3_run_time).state;
-      - switch.turn_on: sprinkler_cntrlr_main_switch_id
-      - logger.log: "=========>>>>>> Finished script"
-      
-      # # The param delay_ms is accessible using a lambda
-      # - light.turn_off: status_light
 
 datetime:
   # Schedule A Time
   - platform: template
-    id: start_time
+    id: a_start_time
     type: time
     name: Start Time
     optimistic: yes
@@ -53,7 +28,7 @@ interval:
       - lambda: |-
           if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
             ESP_LOGD("main", "CORRECT DAY!!!!!!!!!!!!!!!!!!");
-            if (id(sprinkler_cntrlr).paused_valve().has_value()){
+            if (id(lawn_sprinkler_ctrlr).paused_valve().has_value()){
               ESP_LOGD("main", "=============>>>>>>>>>Not running due to paused state!!!");
               return;
             }
@@ -63,7 +38,7 @@ interval:
             int desired_minute = id(start_time).minute;
             // Check if it is the desired hour and the automation should run
             if (current_hour == desired_hour && current_minute == desired_minute) {
-              id(sprinkler_cntrlr).start_full_cycle();
+              id(lawn_sprinkler_ctrlr).start_full_cycle();
               ESP_LOGD("main", "It's the desired hour, running action!");
             }
           }
@@ -72,15 +47,6 @@ switch:
   # Switch templates for days to water
   # TODO
   #   - Add schedule B&C
-  - platform: template
-    id: a_schedule_sw
-    name: "Schedule A"
-    restore_mode: RESTORE_DEFAULT_OFF
-    turn_on_action:
-      - script.execute: run_schedule_a
-    turn_off_action: 
-      - lambda: id(a_schedule_sw).publish_state(false);
-
   - platform: template
     id: lawn_sunday_a_sw
     name: "Sunday"

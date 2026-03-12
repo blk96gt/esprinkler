@@ -25,6 +25,7 @@ substitutions:
     red: 0%
     green: 80%
     blue: 0%
+    effect: none
 
   led_running:
     id: rgb_led
@@ -33,6 +34,7 @@ substitutions:
     red: 95%
     green: 2%
     blue: 100%
+    effect: none
 
   led_standby:
     id: rgb_led
@@ -41,14 +43,16 @@ substitutions:
     red: 97%
     green: 46%
     blue: 19%
+    effect: none
   
   led_pause:
     id: rgb_led
     brightness: 100%
-    # Orange 
-    red: 97%
-    green: 46%
-    blue: 19%
+    # Purple 
+    red: 95%
+    green: 2%
+    blue: 100%
+    effect: Pulse
 
 
 
@@ -109,11 +113,12 @@ web_server:
 
 packages:
   # Time, IP, MAC addr, Wifi info, Temperature, etc
-  - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
-  - !include esprinkler/sensors/generic_sensors.yaml
-  - !include esprinkler/controller/controller.yaml
-  - !include esprinkler/controller/controller_status.yaml
-  # - !include schedule/schedule.yaml
+  - !include hardware/waveshare-8DI-8RO-C.yaml
+  - !include sensors/generic_sensors.yaml
+  - !include controller/controller.yaml
+  - !include controller/controller_status.yaml
+  - !include schedule/schedule.yaml
+  - !include schedule/zone_duration.yaml
   
   ##### Uncomment below if compiling from esphome builder #####
   # - !include esprinkler/sensors/generic_sensors.yaml

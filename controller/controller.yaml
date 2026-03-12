@@ -1,6 +1,19 @@
 sprinkler:
-  - id: ${cntrlr_id}
-    main_switch: "Start Sprinkler Cycle"
+  - id: ${cntrlr_id} 
+    main_switch:
+      name: "Start Sprinkler Cycle"
+      id: sprinkler_cntrlr_main_switch_id
+      on_turn_on:
+        light.turn_on: ${led_running}
+      on_turn_off:
+      - light.turn_on: ${led_ready}
+      - lambda: |-
+          if(!id(${cntrlr_id}).paused_valve().has_value()){
+            id(a_schedule_sw).publish_state(false);
+            return;
+          }
+      # turn_off_action: 
+        
     auto_advance_switch: "Auto Advance"
     multiplier_number: "Run Duration Multiplier"
     repeat_number: "Repeat Cycle"

@@ -15,7 +15,7 @@ number:
 
   - platform: template
     name: "Sched A - Z2 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z2_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -26,7 +26,7 @@ number:
 
   - platform: template
     name: "Sched A - Z3 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z3_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -37,7 +37,7 @@ number:
 
   - platform: template
     name: "Sched A - Z4 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z4_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -48,7 +48,7 @@ number:
 
   - platform: template
     name: "Sched A - Z5 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z5_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -59,7 +59,7 @@ number:
 
   - platform: template
     name: "Sched A - Z6 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z6_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -70,7 +70,7 @@ number:
 
   - platform: template
     name: "Sched A - Z7 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z7_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -81,7 +81,7 @@ number:
 
   - platform: template
     name: "Sched A - Z8 Run Time"
-    id: sched_a_z1_run_time
+    id: sched_a_z8_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
