@@ -3,39 +3,71 @@ text_sensor:
     id: ${cntrlr_id}_state
     name: "${cntrlr_name} Status"
     icon: "mdi:state-machine"
-    #entity_category: diagnostic
-    update_interval: 5s
+    update_interval: 2s
+    #  Update lambda to have a single return at the end
     lambda: |-
       #include <esphome/components/sprinkler/sprinkler.h>
       #define PAUSED_STR "Paused: "
       #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
+
+      auto call = id(rgb_led).turn_on();
       auto paused_valve = id(${cntrlr_id}).paused_valve();
+
       if (paused_valve.has_value()) {
         auto paused_valve_name = id(${cntrlr_id}).valve_name(paused_valve.value());
+        
         auto st = str_snprintf(
           PAUSED_STR "%s", PAUSED_STR_LEN + strlen(paused_valve_name),
           paused_valve_name);
-        auto call = id(rgb_led).turn_on();
-        // set parameters (optional)
-        // call.set_brightness(1.0); // 1.0 is full brightness
-        // call.set_rgb(0.5, 0.25, 1.0); // color in RGB order, this example is purple
+        
+        call.set_rgb(0.95, 0.02, 1.0);
         call.set_effect("Pulse");
-        // perform action:
         call.perform();
+
+        ESP_LOGI("main", "Controller paused...");
+        
         return {st.c_str()};
       }
-
+      // Is standby the same as bypass?
       if (id(${cntrlr_id}).standby())
         return {"Standby"};
 
       switch(id(${cntrlr_id}).controller_state()) {
-        case esphome::sprinkler::SprinklerState::IDLE: return {"Idle"};
-        case esphome::sprinkler::SprinklerState::STARTING: return {"Starting"};
-        case esphome::sprinkler::SprinklerState::ACTIVE: return {"Active"};
-        case esphome::sprinkler::SprinklerState::STOPPING: return {"Stopping"};
-        case esphome::sprinkler::SprinklerState::BYPASS: return {"Bypass"};
-      };
+        case esphome::sprinkler::SprinklerState::IDLE: 
+          call.set_rgb(0.0, 0.8, 0.0);
+          call.set_effect("None");
+          call.perform();
+          ESP_LOGI("main", "Controller Idle...");
+          return {"Idle"};
 
+        case esphome::sprinkler::SprinklerState::STARTING: 
+          ESP_LOGI("main", "Controller Starting...");
+          return {"Starting"};
+
+        case esphome::sprinkler::SprinklerState::ACTIVE: 
+          call.set_rgb(0.95, 0.02, 1.0);
+          call.set_effect("None");
+          call.perform();
+          ESP_LOGI("main", "Controller Active...");
+          return {"Active"};
+
+        case esphome::sprinkler::SprinklerState::STOPPING:
+          ESP_LOGI("main", "Controller Stopping...");
+          return {"Stopping"};
+
+        case esphome::sprinkler::SprinklerState::BYPASS: 
+          call.set_rgb(1.0, 0.53, 0.0);
+          call.set_effect("Pulse");
+          call.perform();
+          ESP_LOGI("main", "Controller Bypassed...");
+          return {"Bypass"};
+        
+        default:
+          call.set_rgb(1.0, 0.0, 0.0);
+          call.set_effect("Pulse");
+          call.perform();
+          ESP_LOGI("main", "Controller N/A...");
+      };
       return {"N/A"};
     
   - platform: template

@@ -1,0 +1,22 @@
+api:
+  encryption:
+    key: "thz0x33OT4pfVlgULREJgurUDENy41juibsZyTVdo+0="
+  actions:
+    # Ability to command the buzzer from Home Assistant
+    - action: rtttl_play
+      variables:
+        song_str: string
+      then:
+        - rtttl.play:
+            rtttl: !lambda 'return song_str;'
+
+ota:
+  - platform: esphome
+    password: "f063f4abfffbdd18a9dcf4d5e21d8610"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Waveshare-Esprinkler"
+    password: "h0JC2RoXPde1"
