@@ -3,10 +3,10 @@ sprinkler:
     main_switch:
       name: "Start Sprinkler Cycle"
       id: sprinkler_cntrlr_main_switch_id
-      on_turn_on:
-        light.turn_on: ${led_running}
+      # on_turn_on:
+      #   light.turn_on: ${led_running}
       on_turn_off:
-      - light.turn_on: ${led_ready}
+      # - light.turn_on: ${led_ready}
       - lambda: |-
           if(!id(${cntrlr_id}).paused_valve().has_value()){
             id(a_schedule_sw).publish_state(false);
@@ -15,14 +15,20 @@ sprinkler:
       # turn_off_action: 
         
     auto_advance_switch: "Auto Advance"
-    multiplier_number: "Run Duration Multiplier"
-    repeat_number: "Repeat Cycle"
+    multiplier_number: 
+      name: "Run Duration Multiplier"
+      id: run_duration_multiplier
+    repeat_number: 
+      name: "Repeat Cycle"
+      id: repeat_cycle
     # VERIFY THIS IS SUFFICENT
     valve_open_delay: 5s
     standby_switch: "Disable All Zones"
     valves:
       - valve_switch: ${z1_name}
-        enable_switch: "Enable ${z1_name}"
+        enable_switch: 
+          name: "Enable ${z1_name}"
+          id: "z1_enable_sw"
         run_duration_number: 
           id: z1_run_duration_number
           name: "${z1_name} Run Duration"
@@ -31,7 +37,9 @@ sprinkler:
         valve_switch_id: relay1
 
       - valve_switch: ${z2_name}
-        enable_switch: "Enable ${z2_name}"
+        enable_switch: 
+          name: "Enable ${z2_name}"
+          id: "z2_enable_sw"
         run_duration_number: 
           id: z2_run_duration_number
           name: "${z2_name} Run Duration"
@@ -40,7 +48,9 @@ sprinkler:
         valve_switch_id: relay2
 
       - valve_switch: ${z3_name}
-        enable_switch: "Enable ${z3_name}"
+        enable_switch: 
+          name: "Enable ${z3_name}"
+          id: "z3_enable_sw"
         run_duration_number: 
           id: z3_run_duration_number
           name: "${z3_name} Run Duration"
@@ -49,7 +59,9 @@ sprinkler:
         valve_switch_id: relay3
 
       - valve_switch: ${z4_name}
-        enable_switch: "Enable ${z4_name}"
+        enable_switch: 
+          name: "Enable ${z4_name}"
+          id: "z4_enable_sw"
         run_duration_number: 
           id: z4_run_duration_number
           name: "${z4_name} Run Duration"
@@ -58,7 +70,9 @@ sprinkler:
         valve_switch_id: relay4
       
       - valve_switch: ${z5_name}
-        enable_switch: "Enable ${z5_name}"
+        enable_switch: 
+          name: "Enable ${z5_name}"
+          id: "z5_enable_sw"
         run_duration_number: 
           id: z5_run_duration_number
           name: "${z5_name} Run Duration"
@@ -67,7 +81,9 @@ sprinkler:
         valve_switch_id: relay5
 
       - valve_switch: ${z6_name}
-        enable_switch: "Enable ${z6_name}"
+        enable_switch: 
+          name: "Enable ${z6_name}"
+          id: "z6_enable_sw"
         run_duration_number: 
           id: z6_run_duration_number
           name: "${z6_name} Run Duration"
@@ -76,7 +92,9 @@ sprinkler:
         valve_switch_id: relay6
 
       - valve_switch: ${z7_name}
-        enable_switch: "Enable ${z7_name}"
+        enable_switch: 
+          name: "Enable ${z7_name}"
+          id: "z7_enable_sw"
         run_duration_number: 
           id: z7_run_duration_number
           name: "${z7_name} Run Duration"
@@ -85,7 +103,9 @@ sprinkler:
         valve_switch_id: relay7
 
       - valve_switch: ${z8_name}
-        enable_switch: "Enable ${z8_name}"
+        enable_switch: 
+          name: "Enable ${z8_name}"
+          id: "z8_enable_sw"
         run_duration_number: 
           id: z8_run_duration_number
           name: "${z8_name} Run Duration"
@@ -93,6 +113,30 @@ sprinkler:
           unit_of_measurement: ${run_uom}
         valve_switch_id: relay8
 
+switch:
+  - platform: template
+    id: cntrlr_pause_sw
+    name: "Pause/Resume Cycle"
+    restore_mode: RESTORE_DEFAULT_OFF
+    turn_on_action:
+      - lambda: id(cntrlr_pause_sw).publish_state(true);
+      - sprinkler.pause: ${cntrlr_id}
+    turn_off_action: 
+      - lambda: id(cntrlr_pause_sw).publish_state(false);
+      - sprinkler.resume: ${cntrlr_id}
+    # lambda: |-
+    #   if (id(glob_sched_a)[6]) {
+    #     id(lawn_saturday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_saturday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    # turn_on_action: 
+    #   - lambda: 'id(glob_sched_a)[6] = true;'
+
+    # turn_off_action: 
+    #   - lambda: 'id(glob_sched_a)[6] = false;'
 
 # sprinkler:
 #   - id: lawn_sprinkler_ctrlr

@@ -1,0 +1,23 @@
+number:
+##### Schedule A #####
+  - platform: template
+    name: "Sched ${sched_id} Repeat Cycle"
+    id: sched_${sched_id}_repeat_cycle
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: 1
+    optimistic: True
+    mode: box
+    restore_value: true
+
+  - platform: template
+    name: "Sched ${sched_id} Run Duration Multiplier"
+    id: sched_${sched_id}_run_duration_mult
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: .1
+    optimistic: True
+    mode: box
+    restore_value: true

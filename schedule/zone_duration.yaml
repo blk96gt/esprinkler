@@ -2,9 +2,10 @@
 # Not implemented yet #
 
 number:
+##### Schedule A #####
   - platform: template
-    name: "Sched A - Z1 Run Time"
-    id: sched_a_z1_run_time
+    name: "Sched ${sched_id} - Z1 Run Time"
+    id: sched_${sched_id}_z1_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -14,8 +15,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z2 Run Time"
-    id: sched_a_z2_run_time
+    name: "Sched ${sched_id} - Z2 Run Time"
+    id: sched_${sched_id}_z2_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -25,8 +26,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z3 Run Time"
-    id: sched_a_z3_run_time
+    name: "Sched ${sched_id} - Z3 Run Time"
+    id: sched_${sched_id}_z3_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -36,8 +37,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z4 Run Time"
-    id: sched_a_z4_run_time
+    name: "Sched ${sched_id} - Z4 Run Time"
+    id: sched_${sched_id}_z4_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -47,8 +48,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z5 Run Time"
-    id: sched_a_z5_run_time
+    name: "Sched ${sched_id} - Z5 Run Time"
+    id: sched_${sched_id}_z5_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -58,8 +59,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z6 Run Time"
-    id: sched_a_z6_run_time
+    name: "Sched ${sched_id} - Z6 Run Time"
+    id: sched_${sched_id}_z6_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -69,7 +70,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z7 Run Time"
+    name: "Sched ${sched_id} - Z7 Run Time"
     id: sched_a_z7_run_time
     min_value: 1
     max_value: 300
@@ -80,8 +81,8 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched A - Z8 Run Time"
-    id: sched_a_z8_run_time
+    name: "Sched ${sched_id} - Z8 Run Time"
+    id: sched_${sched_id}_z8_run_time
     min_value: 1
     max_value: 300
     initial_value: 5
@@ -89,3 +90,181 @@ number:
     optimistic: True
     mode: box
     restore_value: true
+
+##### Schedule B #####
+#   - platform: template
+#     name: "Sched B - Z1 Run Time"
+#     id: sched_b_z1_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z2 Run Time"
+#     id: sched_b_z2_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z3 Run Time"
+#     id: sched_b_z3_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z4 Run Time"
+#     id: sched_b_z4_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z5 Run Time"
+#     id: sched_b_z5_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z6 Run Time"
+#     id: sched_b_z6_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z7 Run Time"
+#     id: sched_b_z7_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched B - Z8 Run Time"
+#     id: sched_b_z8_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+# ##### Schedule C #####
+#   - platform: template
+#     name: "Sched C - Z1 Run Time"
+#     id: sched_c_z1_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z2 Run Time"
+#     id: sched_c_z2_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z3 Run Time"
+#     id: sched_c_z3_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z4 Run Time"
+#     id: sched_c_z4_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z5 Run Time"
+#     id: sched_C_z5_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z6 Run Time"
+#     id: sched_c_z6_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z7 Run Time"
+#     id: sched_c_z7_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true
+
+#   - platform: template
+#     name: "Sched C - Z8 Run Time"
+#     id: sched_c_z8_run_time
+#     min_value: 1
+#     max_value: 300
+#     initial_value: 5
+#     step: 1
+#     optimistic: True
+#     mode: box
+#     restore_value: true

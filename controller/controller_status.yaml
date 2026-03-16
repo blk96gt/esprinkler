@@ -7,10 +7,11 @@ text_sensor:
     #  Update lambda to have a single return at the end
     lambda: |-
       #include <esphome/components/sprinkler/sprinkler.h>
+      #include <esphome/components/light/light_state.h>
       #define PAUSED_STR "Paused: "
       #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
 
-      auto call = id(rgb_led).turn_on();
+      // auto call = id(rgb_led).turn_on();
       auto paused_valve = id(${cntrlr_id}).paused_valve();
 
       if (paused_valve.has_value()) {
@@ -19,25 +20,57 @@ text_sensor:
         auto st = str_snprintf(
           PAUSED_STR "%s", PAUSED_STR_LEN + strlen(paused_valve_name),
           paused_valve_name);
-        
-        call.set_rgb(0.95, 0.02, 1.0);
-        call.set_effect("Pulse");
-        call.perform();
+
+        StringRef current = id(rgb_led).get_effect_name();
+
+        if (current == "None") {
+          auto call = id(rgb_led).turn_on();
+          call.set_brightness(1.0);
+          call.set_rgb(0.95, 0.02, 1.0);
+          call.set_effect("Pulse");
+          call.perform();
+        }
 
         ESP_LOGI("main", "Controller paused...");
+        ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
+        ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
+        ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
         
         return {st.c_str()};
       }
       // Is standby the same as bypass?
-      if (id(${cntrlr_id}).standby())
+      if (id(${cntrlr_id}).standby()){
+        StringRef current = id(rgb_led).get_effect_name();
+
+        if (current == "None") {
+          auto call = id(rgb_led).turn_on();
+          call.set_rgb(1.0, 0.66, 0.0);
+          call.set_effect("Strobe");
+          call.perform();
+        }
+
+        ESP_LOGI("main", "Controller Standby...");
+        ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
+        ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
+        ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
+
         return {"Standby"};
+      }
+
+      auto call = id(rgb_led).turn_on();
 
       switch(id(${cntrlr_id}).controller_state()) {
-        case esphome::sprinkler::SprinklerState::IDLE: 
-          call.set_rgb(0.0, 0.8, 0.0);
+        case esphome::sprinkler::SprinklerState::IDLE:
           call.set_effect("None");
+          call.set_brightness(1.0);
+          call.set_rgb(0.0, 1.0, 0.0);
           call.perform();
+
           ESP_LOGI("main", "Controller Idle...");
+          ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
+          ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
+          ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
+          
           return {"Idle"};
 
         case esphome::sprinkler::SprinklerState::STARTING: 
@@ -45,10 +78,16 @@ text_sensor:
           return {"Starting"};
 
         case esphome::sprinkler::SprinklerState::ACTIVE: 
-          call.set_rgb(0.95, 0.02, 1.0);
           call.set_effect("None");
+          call.set_brightness(1.0);
+          call.set_rgb(0.95, 0.02, 1.0);
           call.perform();
+
           ESP_LOGI("main", "Controller Active...");
+          ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
+          ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
+          ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
+          
           return {"Active"};
 
         case esphome::sprinkler::SprinklerState::STOPPING:

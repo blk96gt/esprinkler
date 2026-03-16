@@ -1,0 +1,153 @@
+switch:
+##### Zone Enabled #####
+  - platform: template
+    id: ${sched_id}_z1_enable_sw
+    name: "${sched_id} ${z1_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z1_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z1_enable_sw).publish_state(false);'
+  
+  - platform: template
+    id: ${sched_id}_z2_enable_sw
+    name: "${sched_id} ${z2_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z2_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z2_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z3_enable_sw
+    name: "${sched_id} ${z3_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z3_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z3_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z4_enable_sw
+    name: "${sched_id} ${z4_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z4_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z4_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z5_enable_sw
+    name: "${sched_id} ${z5_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z5_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z5_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z6_enable_sw
+    name: "${sched_id} ${z6_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z6_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z6_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z7_enable_sw
+    name: "${sched_id} ${z7_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z7_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z7_enable_sw).publish_state(false);'
+
+  - platform: template
+    id: ${sched_id}_z8_enable_sw
+    name: "${sched_id} ${z8_name} Enable"
+    restore_mode: RESTORE_DEFAULT_OFF
+    #entity_category: 
+    # lambda: |-
+    #   if (id(glob_sched_a)[0]) {
+    #     id(lawn_sunday_a_sw).publish_state(true);
+    #     return true;
+    #   } else {
+    #     id(lawn_sunday_a_sw).publish_state(false);
+    #     return false;
+    #   }
+    turn_on_action: 
+      - lambda: 'id(${sched_id}_z8_enable_sw).publish_state(true);'
+
+    turn_off_action: 
+      - lambda: 'id(${sched_id}_z8_enable_sw).publish_state(false);'

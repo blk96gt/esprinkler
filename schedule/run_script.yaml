@@ -1,0 +1,60 @@
+script:
+  - id: run_schedule_${sched_id}
+    # parameters:
+    #   delay_ms: int
+    then:
+      # Set zone run durations
+      - logger.log: 
+          format: ">>>>>> Starting Schedule ${sched_id}"
+          level: INFO
+      - lambda: id(${sched_id}_schedule_sw).publish_state(true);
+      - number.set:
+          id: run_duration_multiplier
+          value: !lambda |-
+            return id(sched_${sched_id}_run_duration_mult).state;
+      - number.set:
+          id: repeat_cycle
+          value: !lambda |-
+            return id(sched_${sched_id}_repeat_cycle).state;
+      - lambda: |-
+          id(z1_enable_sw).control(id(${sched_id}_z1_enable_sw).state);
+          id(z2_enable_sw).control(id(${sched_id}_z2_enable_sw).state);
+          id(z3_enable_sw).control(id(${sched_id}_z3_enable_sw).state);
+          id(z4_enable_sw).control(id(${sched_id}_z4_enable_sw).state);
+          id(z5_enable_sw).control(id(${sched_id}_z5_enable_sw).state);
+          id(z6_enable_sw).control(id(${sched_id}_z6_enable_sw).state);
+          id(z7_enable_sw).control(id(${sched_id}_z7_enable_sw).state);
+          id(z8_enable_sw).control(id(${sched_id}_z8_enable_sw).state);
+      - number.set:
+          id: z1_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z1_run_time).state;
+      - number.set:
+          id: z2_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z2_run_time).state;
+      - number.set:
+          id: z3_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z3_run_time).state;
+      - number.set:
+          id: z4_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z4_run_time).state;
+      - number.set:
+          id: z5_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z5_run_time).state;
+      - number.set:
+          id: z6_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z6_run_time).state;
+      - number.set:
+          id: z7_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z7_run_time).state;
+      - number.set:
+          id: z8_run_duration_number
+          value: !lambda |-
+            return id(sched_${sched_id}_z8_run_time).state;
+      - switch.turn_on: sprinkler_cntrlr_main_switch_id

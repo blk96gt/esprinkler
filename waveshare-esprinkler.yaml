@@ -21,9 +21,11 @@ substitutions:
   led_ready:
     id: rgb_led
     brightness: 100%
+    # color_brightness: 100%
+    # white: 100%
     # Green
     red: 0%
-    green: 80%
+    green: 100%
     blue: 0%
     effect: none
 
@@ -43,7 +45,7 @@ substitutions:
     red: 97%
     green: 46%
     blue: 19%
-    effect: none
+    effect: Pulse
   
   led_pause:
     id: rgb_led
@@ -95,20 +97,21 @@ logger:
 
 packages:
   # Time, IP, MAC addr, Wifi info, Temperature, etc
-  # - !include hardware/waveshare-8DI-8RO-C.yaml
-  # - !include sensors/generic_sensors.yaml
-  # - !include controller/controller.yaml
-  # - !include controller/controller_status.yaml
-  # - !include schedule/schedule.yaml
+  - !include common/network_setup.yaml
+  - !include hardware/waveshare-8DI-8RO-C.yaml
+  - !include sensors/generic_sensors.yaml
+  - !include controller/controller.yaml
+  - !include controller/controller_status.yaml
+  - !include schedule/schedule.yaml
   # - !include schedule/zone_duration.yaml
   
   ##### Uncomment below if compiling from esphome builder #####
-  - !include esprinkler/common/network_setup.yaml
-  - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
-  - !include esprinkler/sensors/generic_sensors.yaml
-  - !include esprinkler/controller/controller.yaml
-  - !include esprinkler/controller/controller_status.yaml
-  - !include esprinkler/schedule/schedule.yaml
-  - !include esprinkler/schedule/zone_duration.yaml
+  # - !include esprinkler/common/network_setup.yaml
+  # - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
+  # - !include esprinkler/sensors/generic_sensors.yaml
+  # - !include esprinkler/controller/controller.yaml
+  # - !include esprinkler/controller/controller_status.yaml
+  # - !include esprinkler/schedule/schedule.yaml
+  # - !include esprinkler/schedule/zone_duration.yaml
 
 

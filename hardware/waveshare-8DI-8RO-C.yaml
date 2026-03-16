@@ -26,21 +26,21 @@ button:
     internal: false
     entity_category: config
 
-  - platform: template
-    name: Pause
-    id: sprinkler_pause_button
-    #icon: "mdi:emoticon-outline"
-    on_press:
-      - sprinkler.pause: sprinkler_cntrlr
-      - light.turn_on: ${led_pause}
+  # - platform: template
+  #   name: Pause
+  #   id: sprinkler_pause_button
+  #   #icon: "mdi:emoticon-outline"
+  #   on_press:
+  #     - sprinkler.pause: sprinkler_cntrlr
+  #     # - light.turn_on: ${led_pause}
   
-  - platform: template
-    name: Resume
-    id: sprinkler_resume_button
-    #icon: "mdi:emoticon-outline"
-    on_press:
-      - sprinkler.resume: sprinkler_cntrlr
-      - light.turn_on: ${led_running}
+  # - platform: template
+  #   name: Resume
+  #   id: sprinkler_resume_button
+  #   #icon: "mdi:emoticon-outline"
+  #   on_press:
+  #     - sprinkler.resume: sprinkler_cntrlr
+  #     - light.turn_on: ${led_running}
 
 binary_sensor:
 # Digital Inputs
@@ -151,7 +151,7 @@ output:
 rtttl:
   output: buzzer
   id: rtttl_buzzer
-  gain: 2%
+  gain: 1%
 
 # RGB LED
 light:
@@ -164,6 +164,25 @@ light:
     id: rgb_led
     effects:
       - pulse:
+          transition_length: 0.5s
+          update_interval: 0.5s
+          min_brightness: 0%
+          max_brightness: 100%
+      - strobe:
+          colors:
+            - state: true
+              brightness: 100%
+              # color_brightness: 100%
+              red: 100%
+              green: 66%
+              blue: 0%
+              duration: 1000ms
+            - state: false
+              brightness: 100%
+              red: 0%
+              green: 0%
+              blue: 0%
+              duration: 1000ms
 
 # Relays
 switch:
