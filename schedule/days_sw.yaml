@@ -26,13 +26,15 @@ switch:
     name: "Monday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[1]) {
-        id(lawn_monday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_monday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_monday_a_sw).control(id(glob_sched_a)[1]);
+      return id(glob_sched_a)[1];
+      // if (id(glob_sched_a)[1]) {
+      //   id(lawn_monday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_monday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[1] = true;'
 
@@ -44,13 +46,15 @@ switch:
     name: "Tuesday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[2]) {
-        id(lawn_tuesday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_tuesday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_tuesday_a_sw).control(id(glob_sched_a)[2]);
+      return id(glob_sched_a)[2];
+      // if (id(glob_sched_a)[2]) {
+      //   id(lawn_tuesday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_tuesday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[2] = true;'
 
@@ -62,13 +66,15 @@ switch:
     name: "Wednesday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[3]) {
-        id(lawn_wednesday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_wednesday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_wednesday_a_sw).control(id(glob_sched_a)[3]);
+      return id(glob_sched_a)[3];
+      // if (id(glob_sched_a)[3]) {
+      //   id(lawn_wednesday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_wednesday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[3] = true;'
 
@@ -80,13 +86,15 @@ switch:
     name: "Thursday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[4]) {
-        id(lawn_thursday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_thursday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_thursday_a_sw).control(id(glob_sched_a)[4]);
+      return id(glob_sched_a)[4];
+      // if (id(glob_sched_a)[4]) {
+      //   id(lawn_thursday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_thursday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[4] = true;'
 
@@ -98,13 +106,15 @@ switch:
     name: "Friday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[5]) {
-        id(lawn_friday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_friday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_friday_a_sw).control(id(glob_sched_a)[5]);
+      return id(glob_sched_a)[5];
+      // if (id(glob_sched_a)[5]) {
+      //   id(lawn_friday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_friday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[5] = true;'
 
@@ -116,13 +126,15 @@ switch:
     name: "Saturday"
     restore_mode: RESTORE_DEFAULT_OFF
     lambda: |-
-      if (id(glob_sched_a)[6]) {
-        id(lawn_saturday_a_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_saturday_a_sw).publish_state(false);
-        return false;
-      }
+      id(lawn_saturday_a_sw).control(id(glob_sched_a)[6]);
+      return id(glob_sched_a)[6];
+      // if (id(glob_sched_a)[6]) {
+      //   id(lawn_saturday_a_sw).publish_state(true);
+      //   return true;
+      // } else {
+      //   id(lawn_saturday_a_sw).publish_state(false);
+      //   return false;
+      // }
     turn_on_action: 
       - lambda: 'id(glob_sched_a)[6] = true;'
 
@@ -130,129 +142,129 @@ switch:
       - lambda: 'id(glob_sched_a)[6] = false;'
 
 ##### Schedule B Switches #####
-  - platform: template
-    id: lawn_sunday_b_sw
-    name: "Sunday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    #entity_category: 
-    lambda: |-
-      if (id(glob_sched_b)[0]) {
-        id(lawn_sunday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_sunday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[0] = true;'
+  # - platform: template
+  #   id: lawn_sunday_b_sw
+  #   name: "Sunday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   #entity_category: 
+  #   lambda: |-
+  #     if (id(glob_sched_b)[0]) {
+  #       id(lawn_sunday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_sunday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[0] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[0] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[0] = false;'
         
-  - platform: template
-    id: lawn_monday_b_sw
-    name: "Monday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[1]) {
-        id(lawn_monday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_monday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[1] = true;'
+  # - platform: template
+  #   id: lawn_monday_b_sw
+  #   name: "Monday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[1]) {
+  #       id(lawn_monday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_monday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[1] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[1] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[1] = false;'
 
-  - platform: template
-    id: lawn_tuesday_b_sw
-    name: "Tuesday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[2]) {
-        id(lawn_tuesday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_tuesday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[2] = true;'
+  # - platform: template
+  #   id: lawn_tuesday_b_sw
+  #   name: "Tuesday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[2]) {
+  #       id(lawn_tuesday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_tuesday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[2] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[2] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[2] = false;'
   
-  - platform: template
-    id: lawn_wednesday_b_sw
-    name: "Wednesday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[3]) {
-        id(lawn_wednesday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_wednesday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[3] = true;'
+  # - platform: template
+  #   id: lawn_wednesday_b_sw
+  #   name: "Wednesday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[3]) {
+  #       id(lawn_wednesday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_wednesday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[3] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[3] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[3] = false;'
   
-  - platform: template
-    id: lawn_thursday_b_sw
-    name: "Thursday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[4]) {
-        id(lawn_thursday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_thursday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[4] = true;'
+  # - platform: template
+  #   id: lawn_thursday_b_sw
+  #   name: "Thursday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[4]) {
+  #       id(lawn_thursday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_thursday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[4] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[4] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[4] = false;'
 
-  - platform: template
-    id: lawn_friday_b_sw
-    name: "Friday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[5]) {
-        id(lawn_friday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_friday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[5] = true;'
+  # - platform: template
+  #   id: lawn_friday_b_sw
+  #   name: "Friday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[5]) {
+  #       id(lawn_friday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_friday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[5] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[5] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[5] = false;'
 
-  - platform: template
-    id: lawn_saturday_b_sw
-    name: "Saturday B"
-    restore_mode: RESTORE_DEFAULT_OFF
-    lambda: |-
-      if (id(glob_sched_b)[6]) {
-        id(lawn_saturday_b_sw).publish_state(true);
-        return true;
-      } else {
-        id(lawn_saturday_b_sw).publish_state(false);
-        return false;
-      }
-    turn_on_action: 
-      - lambda: 'id(glob_sched_b)[6] = true;'
+  # - platform: template
+  #   id: lawn_saturday_b_sw
+  #   name: "Saturday B"
+  #   restore_mode: RESTORE_DEFAULT_OFF
+  #   lambda: |-
+  #     if (id(glob_sched_b)[6]) {
+  #       id(lawn_saturday_b_sw).publish_state(true);
+  #       return true;
+  #     } else {
+  #       id(lawn_saturday_b_sw).publish_state(false);
+  #       return false;
+  #     }
+  #   turn_on_action: 
+  #     - lambda: 'id(glob_sched_b)[6] = true;'
 
-    turn_off_action: 
-      - lambda: 'id(glob_sched_b)[6] = false;'
+  #   turn_off_action: 
+  #     - lambda: 'id(glob_sched_b)[6] = false;'
