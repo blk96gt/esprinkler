@@ -1,6 +1,6 @@
 api:
   encryption:
-    key: "thz0x33OT4pfVlgULREJgurUDENy41juibsZyTVdo+0="
+    key: !secret esprinkler_ha_key
   actions:
     # Ability to command the buzzer from Home Assistant
     - action: rtttl_play
@@ -12,7 +12,7 @@ api:
 
 ota:
   - platform: esphome
-    password: "f063f4abfffbdd18a9dcf4d5e21d8610"
+    password: !secret esprinkler_ota_pw
 
 wifi:
   ssid: !secret wifi_ssid

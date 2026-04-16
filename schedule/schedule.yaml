@@ -1,10 +1,15 @@
 packages:
   # Time, IP, MAC addr, Wifi info, Temperature, etc
-  days_sw: !include days_sw.yaml
+  days_sw: !include 
+    file: days_sw.yaml
+    vars:
+      sched_id: a
+      sched_name: "A"
   zone_duration: !include 
     file: zone_duration.yaml
     vars:
       sched_id: a
+      sched_name: "A"
   # zone_enable_sw: !include zone_enable_sw.yaml
   sched_a: !include
     file: zone_enable_sw.yaml
@@ -38,6 +43,71 @@ globals:
     type: bool[7]
     initial_value: '{false,false,false,false,false,false,false}'
     restore_value: true
+
+datetime:
+  # Schedule A Time
+  - platform: template
+    id: start_time
+    type: time
+    name: Start Time
+    optimistic: yes
+    initial_value: "02:00"
+    restore_value: true
+
+  # Schedule B Time
+  - platform: template
+    id: start_time_b
+    type: time
+    name: Start Time B
+    optimistic: yes
+    initial_value: "02:00"
+    restore_value: true
+
+  # Schedule C Time
+  - platform: template
+    id: start_time_c
+    type: time
+    name: Start Time C
+    optimistic: yes
+    initial_value: "02:00"
+    restore_value: true
+
+
+interval:
+  - interval: 30s
+    then:
+      - lambda: |-
+          // Check if Schedule A is running today
+          if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
+            if (id(sprinkler_cntrlr).paused_valve().has_value()){
+              ESP_LOGI("main", ">>>>>>>>>Cycle skipped due to system PAUSED");
+              return;
+            }
+            
+            int current_hour = id(ha_time).now().hour;
+            int current_minute = id(ha_time).now().minute;
+            int desired_hour = id(start_time).hour;
+            int desired_minute = id(start_time).minute;
+            // Check if it is the desired hour and the automation should run
+            if (current_hour == desired_hour && current_minute == desired_minute) {
+              id(run_schedule_a).execute();
+              ESP_LOGI("main", "Cycle started...");
+            }
+          }
+
+switch:
+  # Switch templates for days to water
+  # TODO
+  #   - Add schedule B&C
+  - platform: template
+    id: a_schedule_sw
+    name: "Schedule A"
+    restore_mode: RESTORE_DEFAULT_OFF
+    turn_on_action:
+      - script.execute: run_schedule_a
+    turn_off_action: 
+      - lambda: id(a_schedule_sw).publish_state(false);
+      - sprinkler.shutdown: ${cntrlr_id}
 
 # script:
 #   - id: run_schedule_a
@@ -151,70 +221,7 @@ globals:
       # # The param delay_ms is accessible using a lambda
       # - light.turn_off: status_light
 
-datetime:
-  # Schedule A Time
-  - platform: template
-    id: start_time
-    type: time
-    name: Start Time
-    optimistic: yes
-    initial_value: "02:00"
-    restore_value: true
 
-  # Schedule B Time
-  - platform: template
-    id: start_time_b
-    type: time
-    name: Start Time B
-    optimistic: yes
-    initial_value: "02:00"
-    restore_value: true
-
-  # Schedule C Time
-  - platform: template
-    id: start_time_c
-    type: time
-    name: Start Time C
-    optimistic: yes
-    initial_value: "02:00"
-    restore_value: true
-
-
-interval:
-  - interval: 30s
-    then:
-      - lambda: |-
-          // Check if Schedule A is running today
-          if (id(glob_sched_a)[id(ha_time).now().day_of_week-1]){
-            if (id(sprinkler_cntrlr).paused_valve().has_value()){
-              ESP_LOGI("main", ">>>>>>>>>Cycle skipped due to system PAUSED");
-              return;
-            }
-            
-            int current_hour = id(ha_time).now().hour;
-            int current_minute = id(ha_time).now().minute;
-            int desired_hour = id(start_time).hour;
-            int desired_minute = id(start_time).minute;
-            // Check if it is the desired hour and the automation should run
-            if (current_hour == desired_hour && current_minute == desired_minute) {
-              id(run_schedule_a).execute();
-              ESP_LOGI("main", "Cycle started...");
-            }
-          }
-
-switch:
-  # Switch templates for days to water
-  # TODO
-  #   - Add schedule B&C
-  - platform: template
-    id: a_schedule_sw
-    name: "Schedule A"
-    restore_mode: RESTORE_DEFAULT_OFF
-    turn_on_action:
-      - script.execute: run_schedule_a
-    turn_off_action: 
-      - lambda: id(a_schedule_sw).publish_state(false);
-      - sprinkler.shutdown: ${cntrlr_id}
 
 # number:
 # ##### Schedule A #####

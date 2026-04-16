@@ -4,7 +4,7 @@
 number:
 ##### Schedule A #####
   - platform: template
-    name: "Sched ${sched_id} - Z1 Run Time"
+    name: "Sched ${sched_name} - Z1 Run Time"
     id: sched_${sched_id}_z1_run_time
     min_value: 1
     max_value: 300
@@ -15,7 +15,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z2 Run Time"
+    name: "Sched ${sched_name} - Z2 Run Time"
     id: sched_${sched_id}_z2_run_time
     min_value: 1
     max_value: 300
@@ -26,7 +26,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z3 Run Time"
+    name: "Sched ${sched_name} - Z3 Run Time"
     id: sched_${sched_id}_z3_run_time
     min_value: 1
     max_value: 300
@@ -37,7 +37,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z4 Run Time"
+    name: "Sched ${sched_name} - Z4 Run Time"
     id: sched_${sched_id}_z4_run_time
     min_value: 1
     max_value: 300
@@ -48,7 +48,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z5 Run Time"
+    name: "Sched ${sched_name} - Z5 Run Time"
     id: sched_${sched_id}_z5_run_time
     min_value: 1
     max_value: 300
@@ -59,7 +59,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z6 Run Time"
+    name: "Sched ${sched_name} - Z6 Run Time"
     id: sched_${sched_id}_z6_run_time
     min_value: 1
     max_value: 300
@@ -70,7 +70,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z7 Run Time"
+    name: "Sched ${sched_name} - Z7 Run Time"
     id: sched_a_z7_run_time
     min_value: 1
     max_value: 300
@@ -81,7 +81,7 @@ number:
     restore_value: true
 
   - platform: template
-    name: "Sched ${sched_id} - Z8 Run Time"
+    name: "Sched ${sched_name} - Z8 Run Time"
     id: sched_${sched_id}_z8_run_time
     min_value: 1
     max_value: 300
