@@ -97,43 +97,22 @@ logger:
 
 packages:
   # Time, IP, MAC addr, Wifi info, Temperature, etc
-  # - !include common/network_setup.yaml
-  # - !include hardware/waveshare-8DI-8RO-C.yaml
-  # - !include sensors/generic_sensors.yaml
-  # - !include controller/controller.yaml
-  # - !include controller/controller_status.yaml
-  # - !include schedule/schedule.yaml
+  - !include common/network_setup.yaml
+  - !include hardware/waveshare-8DI-8RO-C.yaml
+  - !include sensors/generic_sensors.yaml
+  - !include controller/controller.yaml
+  - !include controller/controller_status.yaml
+  - !include schedule/schedule.yaml
   
   # - !include schedule/zone_duration.yaml
   
   ##### Uncomment below if compiling from esphome builder #####
-  - !include esprinkler/common/network_setup.yaml
-  - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
-  - !include esprinkler/sensors/generic_sensors.yaml
-  - !include esprinkler/controller/controller.yaml
-  - !include esprinkler/controller/controller_status.yaml
-  - !include esprinkler/schedule/schedule.yaml
+  # - !include esprinkler/common/network_setup.yaml
+  # - !include esprinkler/hardware/waveshare-8DI-8RO-C.yaml
+  # - !include esprinkler/sensors/generic_sensors.yaml
+  # - !include esprinkler/controller/controller.yaml
+  # - !include esprinkler/controller/controller_status.yaml
+  # - !include esprinkler/schedule/schedule.yaml
   
 
 
-# sprinkler:
-#   - id: lawn_sprinkler_ctrlr
-#     main_switch: "Lawn Sprinklers"
-#     auto_advance_switch: "Lawn Sprinklers Auto Advance"
-#     reverse_switch: "Lawn Sprinklers Reverse"
-#     multiplier_number: "Lawn Sprinkler Multiplier"
-#     repeat_number: "Lawn Sprinkler Repeat"
-#     valve_overlap: 5s
-#     valves:
-#       - valve_switch: "Front Lawn"
-#         enable_switch: "Enable Front Lawn"
-#         run_duration_number: "Front Yard Run Duration"
-#         valve_switch_id: relay1
-#       - valve_switch: "Side Lawn"
-#         enable_switch: "Enable Side Lawn"
-#         run_duration_number: "Side Lawn Run Duration"
-#         valve_switch_id: relay2
-#       - valve_switch: "Back Lawn"
-#         enable_switch: "Enable Back Lawn"
-#         run_duration_number: "Back Lawn Run Duration"
-#         valve_switch_id: relay3

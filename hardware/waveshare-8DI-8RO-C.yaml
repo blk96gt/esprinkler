@@ -195,7 +195,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: &interlock_group [relay1, relay2, relay3, relay4, relay5, relay6, relay7]
+    # interlock: &interlock_group [relay1, relay2, relay3, relay4, relay5, relay6, relay7]
 
   - platform: gpio
     name: "Relay 2"
@@ -206,7 +206,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 3"
@@ -217,7 +217,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 4"
@@ -228,7 +228,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 5"
@@ -239,7 +239,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 6"
@@ -250,7 +250,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 7"
@@ -261,7 +261,7 @@ switch:
       mode:
         output: true
       inverted: false
-    interlock: *interlock_group
+    # interlock: *interlock_group
 
   - platform: gpio
     name: "Relay 8"

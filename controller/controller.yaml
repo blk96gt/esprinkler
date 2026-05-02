@@ -5,6 +5,7 @@ sprinkler:
       id: sprinkler_cntrlr_main_switch_id
       # on_turn_on:
       #   light.turn_on: ${led_running}
+
       on_turn_off:
       # - light.turn_on: ${led_ready}
       - lambda: |-
@@ -13,7 +14,7 @@ sprinkler:
             return;
           }
       # turn_off_action: 
-        
+
     auto_advance_switch: "Auto Advance"
     multiplier_number: 
       name: "Run Duration Multiplier"
@@ -21,8 +22,8 @@ sprinkler:
     repeat_number: 
       name: "Repeat Cycle"
       id: repeat_cycle
-    # VERIFY THIS IS SUFFICENT
-    valve_open_delay: 5s
+
+    valve_open_delay: 10s #### VERIFY THIS IS SUFFICENT ####
     standby_switch: "Disable All Zones"
     valves:
       - valve_switch: ${z1_name}

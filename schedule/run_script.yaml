@@ -1,5 +1,6 @@
 script:
   - id: run_schedule_${sched_id}
+    mode: single
     # parameters:
     #   delay_ms: int
     then:
@@ -8,6 +9,8 @@ script:
           format: ">>>>>> Starting Schedule ${sched_id}"
           level: INFO
       - lambda: id(${sched_id}_schedule_sw).publish_state(true);
+      - sprinkler.clear_queued_valves:
+          id: sprinkler_cntrlr
       - number.set:
           id: run_duration_multiplier
           value: !lambda |-

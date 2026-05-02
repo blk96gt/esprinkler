@@ -1,4 +1,17 @@
 text_sensor:
+
+#### Current state of controller ####
+# Paused: Zone Name
+# Standby
+# Idle
+# Starting...
+# Stopping...
+# Bypass
+# Controller N/A 
+# ##############
+# TODO
+#   - Clean up
+
   - platform: template
     id: ${cntrlr_id}_state
     name: "${cntrlr_name} Status"
@@ -11,7 +24,6 @@ text_sensor:
       #define PAUSED_STR "Paused: "
       #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
 
-      // auto call = id(rgb_led).turn_on();
       auto paused_valve = id(${cntrlr_id}).paused_valve();
 
       if (paused_valve.has_value()) {
@@ -32,10 +44,6 @@ text_sensor:
         }
 
         ESP_LOGI("main", "Controller paused...");
-        ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
-        ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
-        ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
-        
         return {st.c_str()};
       }
       // Is standby the same as bypass?
@@ -50,10 +58,6 @@ text_sensor:
         }
 
         ESP_LOGI("main", "Controller Standby...");
-        ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
-        ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
-        ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
-
         return {"Standby"};
       }
 
@@ -67,15 +71,11 @@ text_sensor:
           call.perform();
 
           ESP_LOGI("main", "Controller Idle...");
-          ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
-          ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
-          ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
-          
           return {"Idle"};
 
         case esphome::sprinkler::SprinklerState::STARTING: 
           ESP_LOGI("main", "Controller Starting...");
-          return {"Starting"};
+          return {"Starting..."};
 
         case esphome::sprinkler::SprinklerState::ACTIVE: 
           call.set_effect("None");
@@ -84,15 +84,11 @@ text_sensor:
           call.perform();
 
           ESP_LOGI("main", "Controller Active...");
-          ESP_LOGI("red", std::to_string(id(rgb_led).current_values.get_red()).c_str());
-          ESP_LOGI("green", std::to_string(id(rgb_led).current_values.get_green()).c_str());
-          ESP_LOGI("blue", std::to_string(id(rgb_led).current_values.get_blue()).c_str());
-          
           return {"Active"};
 
         case esphome::sprinkler::SprinklerState::STOPPING:
           ESP_LOGI("main", "Controller Stopping...");
-          return {"Stopping"};
+          return {"Stopping..."};
 
         case esphome::sprinkler::SprinklerState::BYPASS: 
           call.set_rgb(1.0, 0.53, 0.0);
@@ -108,29 +104,34 @@ text_sensor:
           ESP_LOGI("main", "Controller N/A...");
       };
       return {"N/A"};
-    
+
+#### Run time remaining excluding current valve and including repeats & multiplier ####
   - platform: template
     id: ${cntrlr_id}_run_time_remaining
     name: "Run time remaining"
     icon: "mdi:timer-sand"
     update_interval: 1s
     lambda: |-
-      auto time_remaining = id(${cntrlr_id}).time_remaining_current_operation().value_or(0);
-        // id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value_or(0);
+      if ( !id(${cntrlr_id}).paused_valve().has_value() ) {
+        auto time_remaining = id(${cntrlr_id}).time_remaining_current_operation().value_or(0);
+          // id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value_or(0);
 
-      if (time_remaining > 0) {
-        auto remaining_hours = time_remaining / 3600;
-        auto remaining_minutes = time_remaining / 60;
-        auto remaining_seconds = time_remaining % 60;
+        if (time_remaining > 0) {
+          auto remaining_hours = time_remaining / 3600;
+          auto remaining_minutes = time_remaining / 60;
+          auto remaining_seconds = time_remaining % 60;
 
-        return
-          to_string(remaining_hours) + "h "
-          + to_string(remaining_minutes) + "m "
-          + to_string(remaining_seconds) + "s";
+          return
+            to_string(remaining_hours) + "h "
+            + to_string(remaining_minutes) + "m "
+            + to_string(remaining_seconds) + "s";
+        }
+
+        return { "N/A" };
       }
+      return {};
 
-      return { "N/A" };
-
+#### Current Active Zone ####
   - platform: template
     name: "Active Zone"
     lambda: |-
@@ -141,24 +142,76 @@ text_sensor:
       return { "N/A" };
     update_interval: 1s
 
+#### Amount of time left for zone ####
   - platform: template
+    id: ${cntrlr_id}_zone_time_remaining
     name: "Zone Time Remaining"
     lambda: |-
-      if (id(${cntrlr_id}).active_valve().has_value()){
-        auto time_remaining = id(${cntrlr_id}).time_remaining_active_valve().value();
-        if (time_remaining > 0) {
-          auto remaining_minutes = time_remaining / 60;
-          auto remaining_seconds = time_remaining % 60;
+      if ( !id(${cntrlr_id}).paused_valve().has_value() ) {
 
-          return
-            // to_string(remaining_hours) + "h "
-            to_string(remaining_minutes) + "m "
-            + to_string(remaining_seconds) + "s";
+        if (id(${cntrlr_id}).time_remaining_active_valve().has_value()){
+          auto time_remaining = id(${cntrlr_id}).time_remaining_active_valve().value_or(0);
+          if (time_remaining > 0) {
+            auto remaining_minutes = time_remaining / 60;
+            auto remaining_seconds = time_remaining % 60;
+
+            return
+              // to_string(remaining_hours) + "h "
+              to_string(remaining_minutes) + "m "
+              + to_string(remaining_seconds) + "s";
+          }
+        }
+        
+        return { "N/A" };
+      }
+      return {};
+      
+    update_interval: 1s
+
+#### Cycles/repeats remaining ####
+  - platform: template
+    id: ${cntrlr_id}_cycle_counts
+    name: "Cycle Count"
+    lambda: |-
+      if ( id(${cntrlr_id}).active_valve().has_value() ){
+        return to_string(id(${cntrlr_id}).repeat_count().value() + 1) + 
+        "/" + to_string(id(${cntrlr_id}).repeat().value() + 1);
+      }
+      return "0/" + to_string(id(${cntrlr_id}).repeat().value() + 1);
+    update_interval: 5s
+
+#### Run request origin: USER, CYCLE, or QUEUE ####
+  - platform: template
+    id: ${cntrlr_id}_run_origin
+    name: "Valve Run Type"
+    update_interval: 5s
+    lambda: |-
+      if( id(${cntrlr_id}).active_valve_request_is_from().has_value() ) {
+        switch( id(${cntrlr_id}).active_valve_request_is_from().value()) {
+          case esphome::sprinkler::SprinklerValveRunRequestOrigin::USER:
+            return {"Manual"};
+          case esphome::sprinkler::SprinklerValveRunRequestOrigin::CYCLE:
+            return {"Schedule"};
+          case esphome::sprinkler::SprinklerValveRunRequestOrigin::QUEUE:
+            return {"Queue"};
+          default:
+            return {"N/A"};
         }
       }
+      return {"N/A"};
 
-      return { "N/A" };
-    update_interval: 1s
+
+
+
+
+  # - platform: template
+  #   id: ${cntrlr_id}_cntrlr_state_test
+  #   name: "Test Controller State"
+  #   lambda: |-
+  #     return id(${cntrlr_id}).controller_state();
+  #   update_interval: 5s
+
+
 
 ##### Uncomment for a time remaining sensor for each zone #####
   # - platform: template

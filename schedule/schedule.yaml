@@ -32,17 +32,17 @@ globals:
     initial_value: '{false,false,false,false,false,false,false}'
     restore_value: true
 
-    # Schedule B
-  - id: glob_sched_b
-    type: bool[7]
-    initial_value: '{false,false,false,false,false,false,false}'
-    restore_value: true
+  #   # Schedule B
+  # - id: glob_sched_b
+  #   type: bool[7]
+  #   initial_value: '{false,false,false,false,false,false,false}'
+  #   restore_value: true
 
-    # Schedule C
-  - id: glob_sched_c
-    type: bool[7]
-    initial_value: '{false,false,false,false,false,false,false}'
-    restore_value: true
+  #   # Schedule C
+  # - id: glob_sched_c
+  #   type: bool[7]
+  #   initial_value: '{false,false,false,false,false,false,false}'
+  #   restore_value: true
 
 datetime:
   # Schedule A Time
@@ -55,22 +55,22 @@ datetime:
     restore_value: true
 
   # Schedule B Time
-  - platform: template
-    id: start_time_b
-    type: time
-    name: Start Time B
-    optimistic: yes
-    initial_value: "02:00"
-    restore_value: true
+  # - platform: template
+  #   id: start_time_b
+  #   type: time
+  #   name: Start Time B
+  #   optimistic: yes
+  #   initial_value: "02:00"
+  #   restore_value: true
 
-  # Schedule C Time
-  - platform: template
-    id: start_time_c
-    type: time
-    name: Start Time C
-    optimistic: yes
-    initial_value: "02:00"
-    restore_value: true
+  # # Schedule C Time
+  # - platform: template
+  #   id: start_time_c
+  #   type: time
+  #   name: Start Time C
+  #   optimistic: yes
+  #   initial_value: "02:00"
+  #   restore_value: true
 
 
 interval:
