@@ -26,6 +26,7 @@ button:
     internal: false
     entity_category: config
 
+
   # - platform: template
   #   name: Pause
   #   id: sprinkler_pause_button
