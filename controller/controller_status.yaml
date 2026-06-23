@@ -11,7 +11,6 @@ text_sensor:
 # ##############
 # TODO
 #   - Clean up
-
   - platform: template
     id: ${cntrlr_id}_state
     name: "${cntrlr_name} Status"
@@ -23,6 +22,10 @@ text_sensor:
       #include <esphome/components/light/light_state.h>
       #define PAUSED_STR "Paused: "
       #define PAUSED_STR_LEN sizeof(PAUSED_STR) - 1
+
+      if (id(rain_check).state){
+        return {"Rain Bypass"};
+      }
 
       auto paused_valve = id(${cntrlr_id}).paused_valve();
 
@@ -114,7 +117,6 @@ text_sensor:
     lambda: |-
       if ( !id(${cntrlr_id}).paused_valve().has_value() ) {
         auto time_remaining = id(${cntrlr_id}).time_remaining_current_operation().value_or(0);
-          // id(lawn_sprinkler_ctrlr).time_remaining_active_valve().value_or(0);
 
         if (time_remaining > 0) {
           auto remaining_hours = time_remaining / 3600;
@@ -129,7 +131,7 @@ text_sensor:
 
         return { "N/A" };
       }
-      return {};
+      return { "Testing!!!" };
 
 #### Current Active Zone ####
   - platform: template

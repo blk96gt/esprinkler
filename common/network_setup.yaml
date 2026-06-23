@@ -12,7 +12,9 @@ api:
 
 ota:
   - platform: esphome
+    #allow_partition_access: true
     password: !secret esprinkler_ota_pw
+    # allow_partition_access: true
 
 wifi:
   ssid: !secret wifi_ssid

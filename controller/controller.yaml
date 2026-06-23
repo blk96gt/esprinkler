@@ -24,7 +24,27 @@ sprinkler:
       id: repeat_cycle
 
     valve_open_delay: 10s #### VERIFY THIS IS SUFFICENT ####
-    standby_switch: "Disable All Zones"
+    standby_switch: 
+      name: "Disable All Zones"
+      id: cntrlr_bypass
+      on_turn_off: 
+        if:
+          condition:
+            # Same syntax for is_off
+            binary_sensor.is_on: rain_check
+          then:
+          - text_sensor.template.publish:
+              id: messages
+              state: "[WARNING] Rain bypass is ACTIVE but Bypass switch is OFF.  Schedule will run unless Bypass is manually switched."
+      on_turn_on: 
+        if:
+          condition:
+            # Same syntax for is_off
+            binary_sensor.is_on: rain_check
+          then:
+          - text_sensor.template.publish:
+              id: messages
+              state: "[INFO] Rain bypass is now ACTIVE."
     valves:
       - valve_switch: ${z1_name}
         enable_switch: 

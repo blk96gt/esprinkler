@@ -100,6 +100,7 @@ packages:
   - !include common/network_setup.yaml
   - !include hardware/waveshare-8DI-8RO-C.yaml
   - !include sensors/generic_sensors.yaml
+  - !include sensors/environment.yaml
   - !include controller/controller.yaml
   - !include controller/controller_status.yaml
   - !include schedule/schedule.yaml

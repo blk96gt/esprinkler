@@ -4,3 +4,77 @@
 #   - rain_sensor
 #   - moister_sensor
 #   - jkjhkjh
+sensor:
+  - platform: homeassistant
+    id: station_rain_past_2_days
+    entity_id: sensor.gw2000b_rain_past_2_days
+
+  - platform: template
+    id: rain_past_2_days
+    name: "Rain Past 2 Days"
+    unit_of_measurement: "in"
+    device_class: "precipitation"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(station_rain_past_2_days).state;
+
+  - platform: homeassistant
+    id: station_rain_past_7_days
+    entity_id: sensor.gw2000b_rain_past_7_days
+
+  - platform: template
+    id: rain_past_7_days
+    name: "Rain Past 7 Days"
+    unit_of_measurement: "in"
+    device_class: "precipitation"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(station_rain_past_7_days).state;
+
+binary_sensor:
+  - platform: template
+    id: rain_check
+    name: "Rain Check"
+    lambda: |-
+      if ( ((id(rain_past_2_days).state - id(min_rain_2_days).state) > 0) | ((id(rain_past_7_days).state - id(min_rain_7_days).state) > 0) ) {
+        // id(${cntrlr_id}).clear_queued_valves();
+        return true;
+      } 
+      else {
+        return false;
+      }
+    on_state:
+      if:
+        condition:
+          # Same syntax for is_off
+          binary_sensor.is_on: rain_check
+        then:
+          - switch.turn_on: cntrlr_bypass
+        else:
+          - switch.turn_off: cntrlr_bypass
+          - text_sensor.template.publish:
+              id: messages
+              state: "[INFO] Rain bypass inactive.  Sprinklers will run per schedule."
+
+number:
+  - platform: template
+    name: "Min Rain 2 Days Skip Cycle"
+    id: min_rain_2_days
+    min_value: 0
+    max_value: 10
+    initial_value: 0
+    step: .05
+    optimistic: True
+    mode: box
+    restore_value: true
+
+  - platform: template
+    name: "Min Rain 7 Days Skip Cycle"
+    id: min_rain_7_days
+    min_value: 0
+    max_value: 15
+    initial_value: 0
+    step: .5
+    optimistic: True
+    mode: box
+    restore_value: true

@@ -6,11 +6,11 @@ script:
     then:
       # Set zone run durations
       - logger.log: 
-          format: ">>>>>> Starting Schedule ${sched_id}"
+          format: ">>>>>> Starting ${sched_name}"
           level: INFO
       - lambda: id(${sched_id}_schedule_sw).publish_state(true);
       - sprinkler.clear_queued_valves:
-          id: sprinkler_cntrlr
+          id: ${cntrlr_id}
       - number.set:
           id: run_duration_multiplier
           value: !lambda |-
@@ -60,4 +60,4 @@ script:
           id: z8_run_duration_number
           value: !lambda |-
             return id(sched_${sched_id}_z8_run_time).state;
-      - switch.turn_on: sprinkler_cntrlr_main_switch_id
+      - switch.turn_on: ${cntrlr_id}_main_switch_id

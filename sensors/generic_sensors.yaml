@@ -45,22 +45,6 @@ sensor:
     unit_of_measurement: "%"
     entity_category: diagnostic
 
-  # - platform: debug
-  #   free:
-  #     name: "Heap Free"
-  #   block:
-  #     name: "Heap Max Block"
-  #   min_free:
-  #     name: "Heap Min Free"
-  #   fragmentation:
-  #     name: "Heap Fragmentation"
-  #   loop_time:
-  #     name: "Loop Time"
-  #   # psram:
-  #   #   name: "Free PSRAM"
-  #   cpu_frequency:
-  #     name: "CPU Frequency"
-
 text_sensor:
   - platform: template
     id: device_last_restart
@@ -105,6 +89,21 @@ text_sensor:
         - logger.log:
             format: "Updated QRcode login info - WIFI:S:%s;T:WPA;P:password;;"
             args: [ 'id(device_name).state.c_str()' ]
+
+
+  - platform: template
+    id: messages
+    name: 'Messages'
+    icon: "mdi:information-box"
+    entity_category: diagnostic
+    # lambda: |-
+    #   return {"Hello World\ntest123\n"};
+  
+  - platform: template
+    id: scheduler
+    name: 'Scheduler'
+    icon: "mdi:calendar-month"
+    entity_category: diagnostic
 
   # - platform: debug
   #   device:
